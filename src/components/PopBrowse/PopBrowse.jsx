@@ -5,6 +5,48 @@ function PopBrowse() {
         <div className="pop-browse__block">
           <div className="pop-browse__content">
             
+            <div className="pop-browse__top">
+              <label htmlFor="formTitle" className="subttl">Название задачи</label>
+              <input 
+                className="form-browse__input" 
+                type="text" 
+                id="formTitle"
+                placeholder="Введите название задачи..." 
+                style={{ 
+                  width: '100%', 
+                  marginBottom: '20px', 
+                  padding: '10px',
+                  background: '#fff',
+                  border: '1px solid #D4DBE5',
+                  borderRadius: '8px',
+                  marginTop: '12px'
+                }}
+              />
+            </div>
+            
+            <div className="pop-browse__wrap">
+              <form className="pop-browse__form form-browse" id="formBrowseCard" action="#">
+                <div className="form-browse__block">
+                  <label htmlFor="textArea" className="subttl">Описание задачи</label>
+                  <textarea 
+                    className="form-browse__area" 
+                    name="text" 
+                    id="textArea" 
+                    placeholder="Введите описание задачи.." 
+                    style={{ 
+                      width: '100%', 
+                      minHeight: '100px', 
+                      padding: '10px',
+                      background: '#fff',
+                      border: '1px solid #D4DBE5',
+                      borderRadius: '8px',
+                      resize: 'vertical'
+                    }}
+                  />
+                </div>
+              </form>
+            </div>
+
             <input type="hidden" id="datepick_value" value="08.09.2023" />
             <div className="calendar__period">
               <p className="calendar__p date-end">

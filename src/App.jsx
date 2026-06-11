@@ -1,5 +1,4 @@
-import './App.css';
-//import './main.css'; 
+import './App.css'; 
 import PopUser from './components/PopUser/PopUser';
 import PopNewCard from './components/PopNewCard/PopNewCard';
 import PopBrowse from './components/PopBrowse/PopBrowse';
