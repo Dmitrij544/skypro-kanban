@@ -62,7 +62,7 @@ function PopNewCard() {
               </div>
             </div>
 
-            <button className="header__btn-main-new _hover01" id="btnCreateTask" style={{ marginTop: '20px' }}>
+            <button className="header__btn-main-new _hover01" id="btnCreateTask" style={{ marginLeft: '438px', width: '132px', fontSize: '14px', fontWeight: '500' }}>
               <a href="#">Создать задачу</a>
             </button>
 

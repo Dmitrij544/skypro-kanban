@@ -2,9 +2,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
+     font-family: 'Roboto', sans-serif;
 }
-
 *:before,
 *:after {
     box-sizing: border-box;
@@ -342,10 +341,16 @@ body {
     display: block;
     margin-bottom: 20px;
 }
-
+.pop-new-card__calendar {
+    margin-top: 0;
+}
 .form-new__block {
     display: flex;
     flex-direction: column;
+    gap: 14px
+}
+.form-new__input {
+    margin-top: 9px;
 }
 .form-new__input, .form-new__area {
     width: 100%;
@@ -377,8 +382,12 @@ body {
 }
 .form-new__area {
     max-width: 370px;
-    margin-top: 14px;
+    margin-top: 0px;
     height: 200px;
+    padding: 20px, 14px;
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
 }
 .form-new__create {
     width: 132px;
@@ -399,6 +408,7 @@ body {
     font-size: 14px;
     font-weight: 600;
     line-height: 1;
+    display: block;
 }
 
 .calendar {
@@ -425,9 +435,6 @@ body {
     font-size: 14px;
     line-height: 25px;
     font-weight: 600;
-}
-.calendar__content {
-    margin-bottom: 12px;
 }
 .calendar__days-names {
     display: flex;
@@ -464,7 +471,15 @@ body {
     line-height: 1;
     letter-spacing: -0.2px;
     cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
+
+.calendar__cell._active {
+  background-color: #94A6BE; 
+  color: #ffffff;  
+  border-radius: 50%;        
+}
+
 .calendar__nav {
     width: 100%;
     display: flex;
@@ -475,6 +490,7 @@ body {
 }
 .calendar__period {
     padding: 0 7px;
+    margin-top: 8px;
 }
 
 .nav__actions {
@@ -489,6 +505,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 2px;
 }
 .nav__action svg {
     fill: #94A6BE;
@@ -603,12 +620,18 @@ body {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    margin-top: 5px;
 }
 .pop-browse__form {
     max-width: 370px;
     width: 100%;
     display: block;
     margin-bottom: 20px;
+}
+.pop-browse__status {
+    display: block;
+    width: 100%;
+    margin-bottom: 0; 
 }
 .pop-browse__btn-browse, .pop-browse__btn-edit {
     display: flex;
@@ -624,7 +647,6 @@ body {
 .pop-browse__btn-browse .btn-group button, .pop-browse__btn-edit .btn-group button {
     margin-right: 8px;
 }
-
 .form-browse__block {
     display: flex;
     flex-direction: column;
@@ -633,7 +655,7 @@ body {
     max-width: 370px;
     width: 100%;
     outline: none;
-    padding: 14px;
+    padding: 20px 14px;
     background: #EAEEF6;
     border: 0.7px solid rgba(148, 166, 190, 0.4);
     border-radius: 8px;
@@ -643,21 +665,28 @@ body {
     margin-top: 14px;
     height: 200px;
 }
-.form-browse__area::-moz-placeholder {
+.form-browse__block .subttl {
+  margin-top: 14px;    
+  margin-bottom: 4px;  
+}
+.form-browse__area::-moz-placeholder, 
+.form-new__area::-moz-placeholder {
     font-weight: 400;
     font-size: 14px;
-    line-height: 1px;
+    line-height: normal; 
     color: #94A6BE;
     letter-spacing: -0.14px;
+    padding: 0;          
 }
-.form-browse__area::placeholder {
+.form-browse__area::placeholder, 
+.form-new__area::placeholder {
     font-weight: 400;
     font-size: 14px;
-    line-height: 1px;
+    line-height: normal; 
     color: #94A6BE;
     letter-spacing: -0.14px;
+    padding: 0;          
 }
-
 .status {
     margin-bottom: 11px;
 }
@@ -666,22 +695,38 @@ body {
 }
 .status__themes {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; 
     align-items: flex-start;
     justify-content: flex-start;
+    gap: 7px; 
+    overflow-x: auto; 
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+}
+.status__themes::-webkit-scrollbar {
+    display: none;
 }
 .status__theme {
     border-radius: 24px;
     border: 0.7px solid rgba(148, 166, 190, 0.4);
     color: #94A6BE;
-    padding: 11px 14px 10px;
-    margin-right: 7px;
-    margin-bottom: 7px;
+    padding: 5px 16px 5px;
+    margin-bottom: 0; 
+    margin-right: 0;
+    flex-shrink: 0; 
+}
+.status__theme._active-status {
+    color: #FFFFFF;
+}
+.status__theme._gray {
+    background-color: #94A6BE;
 }
 .status__theme p {
     font-size: 14px;
-    line-height: 1;
+    font-weight: 400; 
+    line-height: normal; 
     letter-spacing: -0.14px;
+    margin: 0; 
 }
 
 ._btn-bor {
@@ -909,7 +954,165 @@ body {
     color: #94A6BE;
     letter-spacing: 0.2px;
 }
+.pop-edit__form.form-edit {
+    max-width: 370px;
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+    margin-top: 16px;
+}
 
+.form-edit__block {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;            
+}
+
+.form-edit__subttl {
+    color: #000;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.form-edit__area {
+    width: 100%;
+    outline: none;
+    padding: 14px;
+    background: transparent;
+    border: 0.7px solid rgba(148, 166, 190, 0.4);
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.2;              
+    letter-spacing: -0.14px;
+    max-width: 370px;
+    margin-top: 0px;
+    height: 200px;
+    display: block;
+    box-sizing: border-box;
+    resize: none;
+}
+
+.form-edit__area::-moz-placeholder {
+    font-weight: 400;
+    font-size: 14px;
+    color: #94A6BE;
+    letter-spacing: -0.14px;
+}
+.form-edit__area::placeholder {
+    font-weight: 400;
+    font-size: 14px;
+    color: #94A6BE;
+    letter-spacing: -0.14px;
+}
+
+.calendar-edit {
+    width: 182px;
+    margin-bottom: 20px;
+    transform: translateY(37px);
+}
+
+.pop-edit__calendar.calendar-edit {
+    margin-top: -20px;  
+}
+
+.calendar-edit__ttl {
+    margin-bottom: 14px;
+    padding: 0 7px;
+}
+.calendar-edit__ttl.subttl {
+    margin-top: 0;
+    margin-bottom: 14px; 
+    padding: 0 12px;                
+}
+.calendar-edit__p {
+    color: #94A6BE;
+    font-size: 10px;
+    line-height: 1;
+}
+.calendar-edit__p.date-end {
+    font-size: 10px;
+    color: #94A6BE;
+    line-height: 1;
+    margin-left: 5px;
+}
+.calendar-edit__p span {
+    color: #000000;
+}
+
+.calendar-edit__block {
+    display: block;
+}
+
+.calendar-edit__month {
+    font-size: 14px;       
+    font-weight: 600;      
+    margin-top: 0;
+    color: #94A6BE;
+    line-height: 25px;
+    margin-left: 12px;
+}
+
+.calendar-edit__days-names {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center; 
+    gap: 14px;    
+    margin: 7px 0;
+    padding: 0 7px;
+}
+
+.calendar-edit__day-name,
+.calendar-edit__day-name.-weekend- {
+    color: #94A6BE;      
+    font-size: 10px;
+    font-weight: 500;
+    line-height: normal;
+    text-align: center;
+}
+
+.calendar-edit__cells {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    padding: 0 7px;
+}
+
+.calendar-edit__cell {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 400;
+    color: #94A6BE;
+    border-radius: 50%;  
+}
+
+.calendar-edit__cell._active-day-edit {
+    background-color: #94A6BE; 
+    color: #FFFFFF;
+    font-weight: 600;
+    border-radius: 50%;  
+}
+
+.calendar-edit__period {
+    margin-top: 12px;
+    padding: 0 7px;
+}
+.pop-browse__wrap--edit {
+    display: flex;
+    flex-direction: row;  
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 12px;            
+    margin-bottom: -20px;  
+}
 @media screen and (max-width: 1200px) {
     .main__block {
         width: 100%;

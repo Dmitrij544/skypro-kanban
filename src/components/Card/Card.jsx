@@ -1,4 +1,9 @@
 function Card({ title, category, categoryClass, date }) {
+  const handleOpen = (e) => {
+    e.preventDefault();
+    window.location.hash = 'popBrowse';
+  };
+
   return (
     <div className="cards__item">
       <div className="cards__card card">
@@ -6,13 +11,15 @@ function Card({ title, category, categoryClass, date }) {
           <div className={`card__theme ${categoryClass}`}>
             <p className={categoryClass}>{category}</p>
           </div>
-          <a href="#popBrowse" target="_self">
-            <div className="card__btn">
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-          </a>
+          <button 
+            onClick={handleOpen} 
+            className="card__btn" 
+            style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+          >
+            <div></div>
+            <div></div>
+            <div></div>
+          </button>
         </div>
         <div className="card__content">
           <a href="" target="_blank" rel="noreferrer">
