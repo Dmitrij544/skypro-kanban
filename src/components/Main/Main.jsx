@@ -1,13 +1,27 @@
 import Column from '../Column/Column';
 
-function Main() {
+const COLUMN_STATUSES = [
+  "Без статуса",
+  "Нужно сделать",
+  "В работе",
+  "Тестирование",
+  "Готово"
+];
+
+function Main({ cards = [] }) {
   return (
     <main className="main">
       <div className="container">
         <div className="main__block">
           <div className="main__content">
-            
-            <Column title="Без статуса" />
+          
+            {COLUMN_STATUSES.map((status, index) => (
+              <Column 
+                key={index} 
+                title={status} 
+                cards={cards.filter(task => task.status === status)} 
+              />
+            ))}
             
           </div>
         </div>
