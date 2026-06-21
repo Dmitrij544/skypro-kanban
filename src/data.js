@@ -9,7 +9,7 @@ export const initialTasks = [
   {
     id: 2,
     topic: "Research",
-    title: "Новая задача",
+    title: "Название задачи",
     date: "30.10.23",
     status: "Без статуса"
   },
@@ -23,35 +23,35 @@ export const initialTasks = [
   {
     id: 4,
     topic: "Research",
-    title: "Новая задача",
+    title: "Название задачи",
     date: "30.10.23",
     status: "Без статуса"
   },
   {
     id: 5,
     topic: "Copywriting",
-    title: "Новая задача",
+    title: "Название задачи",
     date: "30.10.23",
     status: "Без статуса"
   },
   {
     id: 6,
     topic: "Research",
-    title: "Новая задача",
+    title: "Название задачи",
     date: "30.10.23",
     status: "Нужно сделать"
   },
   {
     id: 7,
     topic: "Research",
-    title: "Новая задача",
+    title: "Название задачи",
     date: "30.10.23",
     status: "В работе"
   },
   {
     id: 8,
     topic: "Copywriting",
-    title: "Новая задача",
+    title: "Название задачи",
     date: "30.10.23",
     status: "В работе"
   },
@@ -65,14 +65,14 @@ export const initialTasks = [
   {
     id: 10,
     topic: "Research",
-    title: "Новая задача",
+    title: "Название задачи",
     date: "30.10.23",
     status: "Тестирование"
   },
   {
     id: 11,
     topic: "Research",
-    title: "Новая задача",
+    title: "Название задачи",
     date: "30.10.23",
     status: "Готово"
   },

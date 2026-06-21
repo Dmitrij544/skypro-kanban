@@ -1,4 +1,5 @@
 import Column from '../Column/Column';
+import * as S from './Main.styled'; // Подключаем наши стили
 
 const COLUMN_STATUSES = [
   "Без статуса",
@@ -10,10 +11,10 @@ const COLUMN_STATUSES = [
 
 function Main({ cards = [] }) {
   return (
-    <main className="main">
-      <div className="container">
-        <div className="main__block">
-          <div className="main__content">
+    <S.MainContainer>
+      <S.Container>
+        <S.MainBlock>
+          <S.MainContent>
           
             {COLUMN_STATUSES.map((status, index) => (
               <Column 
@@ -23,10 +24,10 @@ function Main({ cards = [] }) {
               />
             ))}
             
-          </div>
-        </div>
-      </div>
-    </main>
+          </S.MainContent>
+        </S.MainBlock>
+      </S.Container>
+    </S.MainContainer>
   );
 }
 
