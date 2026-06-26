@@ -1,26 +1,42 @@
 import { useState } from 'react';
-import PopEdit from './PopEdit'; 
+import { useParams, useNavigate } from 'react-router-dom';
 
-const allTasks = [
-  { id: 1, title: 'Название задачи', category: 'Web Design', categoryClass: '_orange', date: '30.10.23', description: 'Описание задачи по веб-дизайну...' },
-  { id: 2, title: 'Название задачи', category: 'Research', categoryClass: '_green', date: '30.10.23', description: 'Результаты исследования конкурентов...' },
-  { id: 3, title: 'Название задачи', category: 'Copywriting', categoryClass: '_purple', date: '30.10.23', description: 'Текст для главной страницы...' }
-];
+export default function PopBrowse({ cards, onDelete }) {
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-export default function PopBrowse({ onClose, onSave, onDelete }) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [currentStatus, setCurrentStatus] = useState('Нужно сделать');
-  
+  const task = cards?.find((t) => t.id === Number(id));
+
+  const [currentStatus] = useState(task?.status || 'Нужно сделать');
+
+  if (!task) return null;
+
+  const handleClose = (e) => {
+    if (e) e.preventDefault();
+    navigate('/'); 
+  };
+
+  const handleGoToEdit = (e) => {
+    if (e) e.preventDefault();
+    navigate(`/task/${task.id}/edit`);
+  };
+
+  const handleDeleteTask = (e) => {
+    if (e) e.preventDefault();
+    if (typeof onDelete === 'function') {
+      onDelete(task.id); 
+    }
+    navigate('/'); 
+  };
+
   const daysData = [
     { id: 1, day: '29', type: '_other-month', fullDate: '29.08.23' },
     { id: 2, day: '30', type: '_other-month', fullDate: '30.08.23' },
     { id: 3, day: '31', type: '_other-month', fullDate: '31.08.23' },
-    
     { id: 4, day: '1', type: '_cell-day', fullDate: '01.09.23' },
     { id: 5, day: '2', type: '_cell-day', fullDate: '02.09.23' },
     { id: 6, day: '3', type: '_cell-day _weekend', fullDate: '03.09.23' },
     { id: 7, day: '4', type: '_cell-day _weekend', fullDate: '04.09.23' },
-    
     { id: 8, day: '5', type: '_cell-day', fullDate: '05.09.23' },
     { id: 9, day: '6', type: '_cell-day', fullDate: '06.09.23' },
     { id: 10, day: '7', type: '_cell-day', fullDate: '07.09.23' },
@@ -28,7 +44,6 @@ export default function PopBrowse({ onClose, onSave, onDelete }) {
     { id: 12, day: '9', type: '_cell-day', fullDate: '09.09.23' },
     { id: 13, day: '10', type: '_cell-day _weekend', fullDate: '10.09.23' },
     { id: 14, day: '11', type: '_cell-day _weekend', fullDate: '11.09.23' },
-    
     { id: 15, day: '12', type: '_cell-day', fullDate: '12.09.23' },
     { id: 16, day: '13', type: '_cell-day', fullDate: '13.09.23' },
     { id: 17, day: '14', type: '_cell-day', fullDate: '14.09.23' },
@@ -36,7 +51,6 @@ export default function PopBrowse({ onClose, onSave, onDelete }) {
     { id: 19, day: '16', type: '_cell-day', fullDate: '16.09.23' },
     { id: 20, day: '17', type: '_cell-day _weekend', fullDate: '17.09.23' },
     { id: 21, day: '18', type: '_cell-day _weekend', fullDate: '18.09.23' },
-    
     { id: 22, day: '19', type: '_cell-day', fullDate: '19.09.23' },
     { id: 23, day: '20', type: '_cell-day', fullDate: '20.09.23' },
     { id: 24, day: '21', type: '_cell-day', fullDate: '21.09.23' },
@@ -44,7 +58,6 @@ export default function PopBrowse({ onClose, onSave, onDelete }) {
     { id: 26, day: '23', type: '_cell-day', fullDate: '23.09.23' },
     { id: 27, day: '24', type: '_cell-day _weekend', fullDate: '24.09.23' },
     { id: 28, day: '25', type: '_cell-day _weekend', fullDate: '25.09.23' },
-    
     { id: 29, day: '26', type: '_cell-day', fullDate: '26.09.23' },
     { id: 30, day: '27', type: '_cell-day', fullDate: '27.09.23' },
     { id: 31, day: '28', type: '_cell-day', fullDate: '28.09.23' },
@@ -52,80 +65,32 @@ export default function PopBrowse({ onClose, onSave, onDelete }) {
     { id: 33, day: '30', type: '_cell-day', fullDate: '30.09.23' },
     { id: 34, day: '31', type: '_cell-day _weekend', fullDate: '31.09.23' }
   ];
-  const [selectedDay] = useState(daysData.find(d => d.day === '30' && d.type !== '_other-month') || null);
-  const getActiveTask = () => {
-    if (typeof window === 'undefined') return allTasks[0];
-    const activeEl = document.activeElement;
-    if (activeEl && activeEl.closest('.cards__item')) {
-      const cardEl = activeEl.closest('.cards__item');
-      if (cardEl.innerHTML.includes('_green')) return allTasks[1];
-      if (cardEl.innerHTML.includes('_purple')) return allTasks[2];
-    }
-    return allTasks[0];
-  };
 
-  const task = getActiveTask();
-
-  if (isEditing) {
-    return (
-      <PopEdit 
-        task={task} 
-        onClose={onClose} 
-        onSave={(updatedTask) => {
-          if (typeof onSave === 'function') onSave(updatedTask);
-          setIsEditing(false); 
-        }} 
-        onDelete={onDelete} 
-      />
-    );
-  }
-
-  const statuses = [
-    { name: 'Без статуса', colorClass: '_hide' },
-    { name: 'Нужно сделать', colorClass: '_gray' },
-    { name: 'В работе', colorClass: '_hide' },
-    { name: 'Тестирование', colorClass: '_hide' },
-    { name: 'Готово', colorClass: '_hide' }
-  ];
-  const handleClose = (e) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    window.location.hash = '';
-    if (typeof onClose === 'function') {
-      onClose();
-    }
-  };
+  const categoryColorClass = 
+    task.topic === 'Web Design' || task.category === 'Web Design' ? '_orange' : 
+    task.topic === 'Research' || task.category === 'Research' ? '_green' : '_purple';
 
   return (
-    <div className="pop-browse" id="popBrowse">
+    <div className="pop-browse" id="popBrowse" style={{ display: 'block' }}>
       <div className="pop-browse__container">
         <div className="pop-browse__block">
           <div className="pop-browse__content">
+            
             <div className="pop-browse__top-block">
               <h3 className="pop-browse__ttl">{task.title}</h3>
-              <div className={`categories__theme theme-top ${task.categoryClass} _active-category`}>
-                <p className={task.categoryClass}>{task.category}</p>
+              <div className={`categories__theme theme-top ${categoryColorClass} _active-category`}>
+                <p className={categoryColorClass}>{task.category || task.topic}</p>
               </div>
             </div>
 
             <div className="pop-browse__status status">
               <p className="status__p subttl">Статус</p>
               <div className="status__themes">
-                {statuses.map((status) => {
-                  const isActive = currentStatus === status.name;
-                  return (
-                    <div
-                      key={status.name}
-                      onClick={() => setCurrentStatus(status.name)}
-                      className={`status__theme ${status.colorClass} ${isActive ? '_active-status' : ''}`}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      <p className={status.colorClass}>{status.name}</p>
-                    </div>
-                  );
-                })}
+                
+                <div className="status__theme _active-status _gray">
+                  <p>{currentStatus}</p>
+                </div>
+
               </div>
             </div>
 
@@ -134,7 +99,7 @@ export default function PopBrowse({ onClose, onSave, onDelete }) {
                 <div className="form-browse__block">
                   <p className="subttl">Описание задачи</p>
                   <div className="form-browse__area calendar__p">
-                    Описание задачи
+                    {task.description || 'Описание задачи'}
                   </div>
                 </div>
               </div>
@@ -172,11 +137,11 @@ export default function PopBrowse({ onClose, onSave, onDelete }) {
 
                     <div className="calendar__cells" style={{ pointerEvents: 'none' }}>
                       {daysData.map((item) => {
-                        const isSelected = selectedDay?.id === item.id;
+                        const isTaskDate = item.fullDate === task.date || item.day === '30';
                         return (
                           <div
                             key={item.id}
-                            className={`calendar__cell ${item.type} ${isSelected ? '_active' : ''}`}
+                            className={`calendar__cell ${item.type} ${isTaskDate ? '_active' : ''}`}
                           >
                             {item.day}
                           </div>
@@ -185,32 +150,53 @@ export default function PopBrowse({ onClose, onSave, onDelete }) {
                     </div>
                   </div> 
 
-                  <div className="calendar__period">
-                    <p className="calendar__p date-end">
-                      Срок исполнения:{' '}
-                      <span className="date-control" style={{ color: '#000', fontWeight: '600' }}>
-                        {selectedDay ? selectedDay.fullDate : task.date}
-                      </span>
-                      .
-                    </p>
-                  </div>
-
                 </div> 
               </div> 
 
             </div>
 
+            <input type="hidden" id="datepick_value" value={task.date} />
+            <div className="calendar__period" style={{ marginBottom: '20px' }}>
+              <p className="calendar__p date-end">
+                Срок исполнения: <span className="date-control">{task.date}</span>
+              </p>
+            </div>
+            
+            <div className="theme-down__categories theme-down" style={{ marginBottom: '20px' }}>
+              <p className="categories__p subttl">Категория</p>
+              <div className={`categories__theme ${categoryColorClass} _active-category`}>
+                <p className={categoryColorClass}>{task.category || task.topic}</p>
+              </div>
+            </div>
+
             <div className="pop-browse__btn-browse">
               <div className="btn-group">
-                <button type="button" onClick={() => setIsEditing(true)} className="btn-browse__edit _btn-bor _hover03">
-                  Редактировать задачу
+                <button type="button" onClick={handleGoToEdit} className="btn-browse__edit _btn-bor _hover03">
+                  <a href="#" onClick={(e) => e.preventDefault()}>Редактировать задачу</a>
                 </button>
-                <button type="button" onClick={() => onDelete && onDelete(task.id)} className="btn-browse__delete _btn-bor _hover03">
-                  Удалить задачу
+                <button type="button" onClick={handleDeleteTask} className="btn-browse__delete _btn-bor _hover03">
+                  <a href="#" onClick={(e) => e.preventDefault()}>Удалить задачу</a>
                 </button>
               </div>
               <button type="button" onClick={handleClose} className="btn-browse__close _btn-bg _hover01">
-                Закрыть
+                <a href="#" onClick={(e) => e.preventDefault()}>Закрыть</a>
+              </button>
+            </div>
+
+            <div className="pop-browse__btn-edit _hide">
+              <div className="btn-group">
+                <button type="button" className="btn-edit__edit _btn-bg _hover01">
+                  <a href="#" onClick={(e) => e.preventDefault()}>Сохранить</a>
+                </button>
+                <button type="button" onClick={handleClose} className="btn-edit__edit _btn-bor _hover03">
+                  <a href="#" onClick={(e) => e.preventDefault()}>Отменить</a>
+                </button>
+                <button type="button" onClick={handleDeleteTask} className="btn-edit__delete _btn-bor _hover03" id="btnDelete">
+                  <a href="#" onClick={(e) => e.preventDefault()}>Удалить задачу</a>
+                </button>
+              </div>
+              <button type="button" onClick={handleClose} className="btn-edit__close _btn-bg _hover01">
+                <a href="#" onClick={(e) => e.preventDefault()}>Закрыть</a>
               </button>
             </div>
 

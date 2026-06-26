@@ -1,40 +1,88 @@
 import { useState } from 'react';
 import Calendar from '../Calendar/Calendar'; 
 
-function PopNewCard() {
+function PopNewCard({ onAddTask, onClose }) {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Web Design');
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if (!title.trim()) {
+      alert('Пожалуйста, введите название задачи');
+      return;
+    }
+
+    const newTask = {
+      id: Date.now(), 
+      topic: selectedCategory, 
+      title: title.trim(),
+      description: description.trim(),
+      date: selectedDate.toLocaleDateString('ru-RU'), 
+      status: 'Без статуса' 
+    };
+
+    if (typeof onAddTask === 'function') {
+      onAddTask(newTask); 
+    }
+    
+    if (typeof onClose === 'function') {
+      onClose(); 
+    }
+  };
 
   return (
-    <div className="pop-new-card" id="popNewCard">
+    <div className="pop-new-card" id="popNewCard" style={{ display: 'block' }}>
       <div className="pop-new-card__container">
         <div className="pop-new-card__block">
           <div className="pop-new-card__content">
             
             <h3 className="pop-new-card__ttl">Создание задачи</h3>
             
-            <a href="#" className="pop-new-card__close">✖</a>
+            <a 
+              href="#" 
+              className="pop-new-card__close" 
+              onClick={(e) => { e.preventDefault(); onClose(); }}
+            >
+              ✖
+            </a>
             
             <div className="pop-new-card__wrap">
-              
-              <form className="pop-new-card__form form-new" id="formNewCard" action="#">
-                <div className="form-new__block">
+              <form className="pop-new-card__form form-new" id="formNewCard" onSubmit={handleSubmit}>
+                <div className="form-new__block" style={{ marginBottom: '24px' }}>
                   <label htmlFor="formTitle" className="subttl">Название задачи</label>
-                  <input className="form-new__input" type="text" name="name" id="formTitle" placeholder="Введите название задачи..." autoFocus />
+                  <input 
+                    className="form-new__input" 
+                    type="text" 
+                    name="name" 
+                    id="formTitle" 
+                    placeholder="Введите название задачи..." 
+                    autoFocus 
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
                 </div>
                 <div className="form-new__block">
-                  <label htmlFor="textArea" className="subttl">Описание задачи</label>
-                  <textarea className="form-new__area" name="text" id="textArea" placeholder="Введите описание задачи..."></textarea>
+                  <label htmlFor="textArea" className="subttl" style={{ display: 'block', marginBottom: '4px' }}>Описание задачи</label>
+                  <textarea 
+                    className="form-new__area" 
+                    name="text" 
+                    id="textArea" 
+                    placeholder="Введите описание задачи..."
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  ></textarea>
                 </div>
               </form>
               
-              <Calendar />
-              
+              <Calendar selected={selectedDate} setSelected={setSelectedDate} />
             </div> 
 
             <div className="pop-new-card__categories categories">
               <p className="categories__p subttl">Категория</p>
               <div className="categories__themes">
-                
                 <div 
                   className={`categories__theme _orange ${selectedCategory === 'Web Design' ? '_active-category' : ''}`}
                   onClick={() => setSelectedCategory('Web Design')}
@@ -42,7 +90,6 @@ function PopNewCard() {
                 >
                   <p className="_orange">Web Design</p>
                 </div>
-                
                 <div 
                   className={`categories__theme _green ${selectedCategory === 'Research' ? '_active-category' : ''}`}
                   onClick={() => setSelectedCategory('Research')}
@@ -50,7 +97,6 @@ function PopNewCard() {
                 >
                   <p className="_green">Research</p>
                 </div>
-                
                 <div 
                   className={`categories__theme _purple ${selectedCategory === 'Copywriting' ? '_active-category' : ''}`}
                   onClick={() => setSelectedCategory('Copywriting')}
@@ -58,12 +104,17 @@ function PopNewCard() {
                 >
                   <p className="_purple">Copywriting</p>
                 </div>
-                
               </div>
             </div>
 
-            <button className="header__btn-main-new _hover01" id="btnCreateTask" style={{ marginLeft: '438px', width: '132px', fontSize: '14px', fontWeight: '500' }}>
-              <a href="#">Создать задачу</a>
+            <button 
+              type="submit"
+              form="formNewCard"
+              className="header__btn-main-new _hover01" 
+              id="btnCreateTask" 
+              style={{ marginLeft: '438px', width: '132px', fontSize: '14px', fontWeight: '500' }}
+            >
+              Создать задачу
             </button>
 
           </div>

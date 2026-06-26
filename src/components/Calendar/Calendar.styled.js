@@ -71,7 +71,6 @@ export const CalendarDaysNames = styled.div`
   padding: 0 7px;
 `;
 
-// Точные размеры 11px на 12px для названий дней
 export const CalendarDayName = styled.div`
   color: #94A6BE; 
   font-size: 8px;
@@ -90,7 +89,6 @@ export const CalendarCells = styled.div`
   padding: 0 5px 0 0;
 `;
 
-// Стили для пустых отступов в начале месяца
 export const EmptyCell = styled.div`
   width: 22px;
   height: 22px;
@@ -107,7 +105,6 @@ export const CalendarCell = styled.div`
   cursor: pointer;
   transition: all 0.2s ease;
 
-  // Все числа строго черные
   color: #94A6BE;
 
   &:hover {
@@ -115,7 +112,7 @@ export const CalendarCell = styled.div`
   }
 
   ${props => props.$isSelected && `
-    background-color: #565EEF !important;
+    background-color: #94A6BE !important;
     color: #FFFFFF !important;
     font-weight: 600;
     opacity: 1;

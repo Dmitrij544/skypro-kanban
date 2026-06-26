@@ -1,10 +1,13 @@
+import { Link } from 'react-router-dom'; 
 import * as S from './Card.styled';
 
-function Card({ title, category, categoryClass, date, $isDone }) {
+function Card({ id, title, category, categoryClass, date, $isDone }) {
   return (
     <S.CardsItem>
-      {/* Оборачиваем карточку в родную ссылку на попап просмотра */}
-      <a href="#popBrowse" target="_self" style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+      <Link 
+        to={`/task/${id}`} 
+        style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
+      >
         <S.CardContainer>
           <S.CardGroup>
             <S.CardTheme $categoryClass={categoryClass}>
@@ -27,7 +30,7 @@ function Card({ title, category, categoryClass, date, $isDone }) {
             </S.CardDate>
           </S.CardContent>
         </S.CardContainer>
-      </a>
+      </Link>
     </S.CardsItem>
   );
 }

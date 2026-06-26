@@ -70,7 +70,6 @@ function Calendar() {
           </S.CalendarDaysNames>
           
           <S.CalendarCells>
-            {/* Генерируем 3 пустые ячейки (пн, вт, ср), чтобы сместить 1 число на четверг */}
             <S.EmptyCell />
             <S.EmptyCell />
             <S.EmptyCell />
