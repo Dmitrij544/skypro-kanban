@@ -16,10 +16,8 @@ function AppRoutes({ cards, isAuth, setAuth, onSaveTask, onDeleteTask, onAddTask
     <Routes>
       <Route path="/login" element={<LoginPage setAuth={setAuth} />} />
       <Route path="/register" element={<RegisterPage setAuth={setAuth} />} />
-      <Route path="*" element={<NotFoundPage />} />
 
       <Route element={<ProtectedRoute isAuth={isAuth} />}>
-        
         <Route path="/" element={<CardPage cards={cards} setAuth={setAuth} />}>
           <Route path="exit" element={<ExitPage setAuth={setAuth} />} />
           <Route path="new-card" element={<TaskNewPage onAddTask={onAddTask} />} />
@@ -33,8 +31,11 @@ function AppRoutes({ cards, isAuth, setAuth, onSaveTask, onDeleteTask, onAddTask
             element={<PopEdit cards={cards} onSave={onSaveTask} onDelete={onDeleteTask} />} 
           />
         </Route>
-
       </Route>
+
+      <Route path="/404" element={<NotFoundPage />} />
+
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
