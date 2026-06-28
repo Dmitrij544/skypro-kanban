@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const CardsItem = styled.div`
   padding: 5px;
-  animation: card-animation 0.5s ease-after-load; // Ваша анимация из CSS
+  animation: card-animation 0.5s ease-after-load; 
 `;
 
 export const CardContainer = styled.div`
@@ -25,7 +25,6 @@ export const CardGroup = styled.div`
   justify-content: space-between;
 `;
 
-// Динамическая тема карточки на основе переданного класса/темы
 export const CardTheme = styled.div`
   width: auto;
   height: 20px;
@@ -41,7 +40,6 @@ export const CardTheme = styled.div`
     line-height: 10px;
   }
 
-  /* Стили на основе вашего оригинального CSS */
   ${props => props.$categoryClass === '_orange' && `
     background-color: #FFE4C2;
     p { color: #FF6D00; }
@@ -97,7 +95,6 @@ export const CardTitle = styled.h3`
   line-height: 18px;
   color: #000000;
 
-  /* Если карточка отрисовалась в столбце "Готово" — перечёркиваем текст */
   ${props => props.$isDone && `
     text-decoration: line-through;
   `}
@@ -111,12 +108,11 @@ export const CardDate = styled.div`
   svg {
     width: 13px;
     height: 13px;
-    margin: 0; /* Полностью убираем внешние отступы иконки */
+    margin: 0; 
   }
 
   p {
-    /* Отрицательный отступ компенсирует пустые 6px внутри самой иконки */
-    margin-left: 6px; /* Поставьте -4px или -6px, чтобы прижать текст прямо к рисунку календаря */
+    margin-left: 6px; 
     color: #94A6BE;
     font-size: 10px;
     line-height: 13px;

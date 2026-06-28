@@ -1,11 +1,13 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import * as S from './Header.styled';
 
-function Header() {
+function Header() { 
   const [isUserSetOpen, setIsUserSetOpen] = useState(false);
 
   const toggleUserSet = (e) => {
     e.preventDefault(); 
+    e.stopPropagation(); 
     setIsUserSetOpen(!isUserSetOpen); 
   };
 
@@ -13,20 +15,26 @@ function Header() {
     <S.HeaderContainer>
       <S.Container>
         <S.HeaderBlock>
+          
           <S.HeaderLogo>
-            <a href="" target="_self"><img src="images/logo.png" alt="logo" /></a>
+            <Link to="/"><img src="images/logo.png" alt="logo" /></Link>
           </S.HeaderLogo>
           <S.HeaderLogo $dark>
-            <a href="" target="_self"><img src="images/logo_dark.png" alt="logo" /></a>
+            <Link to="/"><img src="images/logo_dark.png" alt="logo" /></Link>
           </S.HeaderLogo>
+          
           <S.HeaderNav>
             <S.BtnMainNew id="btnMainNew">
-              <a href="#popNewCard">Создать новую задачу</a>
+              <Link to="/new-card" style={{ color: '#ffffff', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                Создать новую задачу
+              </Link>
             </S.BtnMainNew>
             
             <S.HeaderUser 
-              href="#" 
+              as="button"
+              type="button"
               onClick={toggleUserSet}
+              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
             >
               Ivan Ivanov
             </S.HeaderUser>
@@ -39,11 +47,15 @@ function Header() {
                   <p>Темная тема</p>
                   <S.Checkbox name="checkbox" />
                 </S.PopUserSetTheme>
+                
                 <S.PopUserBtn onClick={() => setIsUserSetOpen(false)}>
-                  <a href="#popExit">Выйти</a>
+                  <Link to="/exit" style={{ color: 'inherit', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    Выйти
+                  </Link>
                 </S.PopUserBtn>
               </S.PopUserSet>
             )}
+            
           </S.HeaderNav>
         </S.HeaderBlock>
       </S.Container>

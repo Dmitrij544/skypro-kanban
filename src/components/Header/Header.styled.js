@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-// Базовые общие стили для ховеров и кнопок, чтобы не дублировать код
 const BaseButton = styled.button`
   cursor: pointer;
   outline: none;
@@ -54,7 +53,7 @@ export const BtnMainNew = styled(BaseButton)`
   width: 178px;
   height: 30px;
   border-radius: 4px;
-  background-color: #565EEF; // Ваш фиолетовый цвет
+  background-color: #565EEF; 
   margin-right: 20px;
 
   a {
@@ -71,7 +70,7 @@ export const BtnMainNew = styled(BaseButton)`
   }
 
   &:hover {
-    background-color: #33399b; // Ваш цвет из ._hover01
+    background-color: #33399b; 
   }
 `;
 
@@ -101,7 +100,7 @@ export const HeaderUser = styled.a`
   }
 
   &:hover {
-    color: #33399b; // Ваш цвет из ._hover02
+    color: #33399b; 
     
     &::after {
       border-left-color: #33399b;
@@ -111,7 +110,7 @@ export const HeaderUser = styled.a`
 `;
 
 export const PopUserSet = styled.div`
-  display: block; // Заменяет дефолтный .pop-user-set:target { display: block }
+  display: block; 
   position: absolute;
   top: 42px;
   right: 0;

@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 export const MainContainer = styled.main`
   width: 100%;
-  background-color: #EAEEF6; // Цвет фона из вашего .wrapper
-  padding: 40px 0; // Отступы сверху и снизу для контента
+  background-color: #EAEEF6; 
+  padding: 40px 0; 
 `;
 
 export const Container = styled.div`
@@ -23,5 +23,5 @@ export const MainContent = styled.div`
   width: 100%;
   display: flex;
   align-items: flex-start;
-  justify-content: space-between; // Равномерно распределяет колонки по ширине
+  justify-content: space-between; 
 `;

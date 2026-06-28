@@ -28,7 +28,7 @@ export const Cards = styled.div`
 
 export const CardsItem = styled.div`
   padding: 5px;
-  animation: card-animation 0.5s ease-after-load; // Ваша анимация из CSS
+  animation: card-animation 0.5s ease-after-load; 
 `;
 
 export const Card = styled.div`
@@ -51,7 +51,6 @@ export const CardGroup = styled.div`
   justify-content: space-between;
 `;
 
-// Стилизация темы карточки на основе пропса $topic
 export const CardTheme = styled.div`
   width: auto;
   height: 20px;
@@ -67,7 +66,6 @@ export const CardTheme = styled.div`
     line-height: 10px;
   }
 
-  /* Динамически подставляем ваши цвета из CSS в зависимости от темы */
   ${props => props.$topic === 'Web Design' && `
     background-color: #FFE4C2;
     p { color: #FF6D00; }

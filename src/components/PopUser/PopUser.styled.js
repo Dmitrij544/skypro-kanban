@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-// Базовые стили для кнопок
 const BaseButton = styled.button`
   width: 153px;
   height: 30px;
@@ -27,7 +26,7 @@ const BaseButton = styled.button`
 `;
 
 export const PopExit = styled.div`
-  display: none; // Скрыт по умолчанию
+  display: none; 
   width: 100%;
   height: 100%;
   min-width: 320px;
@@ -37,7 +36,6 @@ export const PopExit = styled.div`
   left: 0;
   z-index: 5;
 
-  /* Эмуляция псевдокласса :target из вашего CSS */
   &:target {
     display: block;
   }
@@ -90,7 +88,6 @@ export const PopExitFormGroup = styled.div`
   justify-content: space-between;
 `;
 
-// Кнопка "Да, выйти" (Ховер _hover01 из вашего CSS)
 export const ExitYesBtn = styled(BaseButton)`
   background-color: #565EEF;
   border: none;
@@ -106,7 +103,6 @@ export const ExitYesBtn = styled(BaseButton)`
   }
 `;
 
-// Кнопка "Нет, остаться" (Ховер _hover03 из вашего CSS)
 export const ExitNoBtn = styled(BaseButton)`
   background-color: transparent;
   border: 0.7px solid #565EEF;

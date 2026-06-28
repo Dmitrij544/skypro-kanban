@@ -11,6 +11,7 @@ function Column({ title, cards = [] }) {
         {cards.map((task) => (
           <Card 
             key={task.id}
+            id={task.id} 
             title={task.title} 
             category={task.topic} 
             categoryClass={
