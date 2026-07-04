@@ -24,17 +24,22 @@ function AppRoutes({ cards, isAuth, setAuth, onSaveTask, onDeleteTask, onAddTask
           
           <Route 
             path="task/:id" 
-            element={<PopBrowse cards={cards} />} 
+            element={<PopBrowse cards={cards} onDeleteTask={onDeleteTask} />} 
           />
           <Route 
             path="task/:id/edit" 
-            element={<PopEdit cards={cards} onSave={onSaveTask} onDelete={onDeleteTask} />} 
+            element={
+              <PopEdit 
+                cards={cards} 
+                onSaveTask={onSaveTask} 
+                onDeleteTask={onDeleteTask} 
+              />
+            } 
           />
         </Route>
       </Route>
 
       <Route path="/404" element={<NotFoundPage />} />
-
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

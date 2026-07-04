@@ -8,6 +8,8 @@ function PopUser({ setAuth }) {
     e.preventDefault();
     e.stopPropagation();
 
+    localStorage.removeItem("userInfo");
+
     if (typeof setAuth === 'function') {
       setAuth(false); 
     }
