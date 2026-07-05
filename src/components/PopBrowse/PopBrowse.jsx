@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-export default function PopBrowse({ cards, onDelete }) {
+export default function PopBrowse({ cards, onDeleteTask }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const task = cards?.find((t) => t.id === Number(id));
+  const task = cards?.find((t) => String(t._id || t.id) === String(id)) || {};
 
-  const [currentStatus] = useState(task?.status || 'Нужно сделать');
-
-  if (!task) return null;
+  const [currentStatus] = useState(task?.status || 'Без статуса');
 
   const handleClose = (e) => {
     if (e) e.preventDefault();
@@ -18,57 +16,64 @@ export default function PopBrowse({ cards, onDelete }) {
 
   const handleGoToEdit = (e) => {
     if (e) e.preventDefault();
-    navigate(`/task/${task.id}/edit`);
+    navigate(`/task/${task._id || id}/edit`);
   };
 
   const handleDeleteTask = (e) => {
     if (e) e.preventDefault();
-    if (typeof onDelete === 'function') {
-      onDelete(task.id); 
+    if (typeof onDeleteTask === 'function') {
+      onDeleteTask(task._id || id); 
     }
     navigate('/'); 
   };
 
   const daysData = [
-    { id: 1, day: '29', type: '_other-month', fullDate: '29.08.23' },
-    { id: 2, day: '30', type: '_other-month', fullDate: '30.08.23' },
-    { id: 3, day: '31', type: '_other-month', fullDate: '31.08.23' },
-    { id: 4, day: '1', type: '_cell-day', fullDate: '01.09.23' },
-    { id: 5, day: '2', type: '_cell-day', fullDate: '02.09.23' },
-    { id: 6, day: '3', type: '_cell-day _weekend', fullDate: '03.09.23' },
-    { id: 7, day: '4', type: '_cell-day _weekend', fullDate: '04.09.23' },
-    { id: 8, day: '5', type: '_cell-day', fullDate: '05.09.23' },
-    { id: 9, day: '6', type: '_cell-day', fullDate: '06.09.23' },
-    { id: 10, day: '7', type: '_cell-day', fullDate: '07.09.23' },
-    { id: 11, day: '8', type: '_cell-day', fullDate: '08.09.23' },
-    { id: 12, day: '9', type: '_cell-day', fullDate: '09.09.23' },
-    { id: 13, day: '10', type: '_cell-day _weekend', fullDate: '10.09.23' },
-    { id: 14, day: '11', type: '_cell-day _weekend', fullDate: '11.09.23' },
-    { id: 15, day: '12', type: '_cell-day', fullDate: '12.09.23' },
-    { id: 16, day: '13', type: '_cell-day', fullDate: '13.09.23' },
-    { id: 17, day: '14', type: '_cell-day', fullDate: '14.09.23' },
-    { id: 18, day: '15', type: '_cell-day', fullDate: '15.09.23' },
-    { id: 19, day: '16', type: '_cell-day', fullDate: '16.09.23' },
-    { id: 20, day: '17', type: '_cell-day _weekend', fullDate: '17.09.23' },
-    { id: 21, day: '18', type: '_cell-day _weekend', fullDate: '18.09.23' },
-    { id: 22, day: '19', type: '_cell-day', fullDate: '19.09.23' },
-    { id: 23, day: '20', type: '_cell-day', fullDate: '20.09.23' },
-    { id: 24, day: '21', type: '_cell-day', fullDate: '21.09.23' },
-    { id: 25, day: '22', type: '_cell-day', fullDate: '22.09.23' },
-    { id: 26, day: '23', type: '_cell-day', fullDate: '23.09.23' },
-    { id: 27, day: '24', type: '_cell-day _weekend', fullDate: '24.09.23' },
-    { id: 28, day: '25', type: '_cell-day _weekend', fullDate: '25.09.23' },
-    { id: 29, day: '26', type: '_cell-day', fullDate: '26.09.23' },
-    { id: 30, day: '27', type: '_cell-day', fullDate: '27.09.23' },
-    { id: 31, day: '28', type: '_cell-day', fullDate: '28.09.23' },
-    { id: 32, day: '29', type: '_cell-day', fullDate: '29.09.23' },
-    { id: 33, day: '30', type: '_cell-day', fullDate: '30.09.23' },
-    { id: 34, day: '31', type: '_cell-day _weekend', fullDate: '31.09.23' }
+    { id: 1, day: '29', type: '_other-month', dayStr: '29' },
+    { id: 2, day: '30', type: '_other-month', dayStr: '30' },
+    { id: 3, day: '31', type: '_other-month', dayStr: '31' },
+    { id: 4, day: '1', type: '_cell-day', dayStr: '01' },
+    { id: 5, day: '2', type: '_cell-day', dayStr: '02' },
+    { id: 6, day: '3', type: '_cell-day _weekend', dayStr: '03' },
+    { id: 7, day: '4', type: '_cell-day _weekend', dayStr: '04' },
+    { id: 8, day: '5', type: '_cell-day', dayStr: '05' },
+    { id: 9, day: '6', type: '_cell-day', dayStr: '06' },
+    { id: 10, day: '7', type: '_cell-day', dayStr: '07' },
+    { id: 11, day: '8', type: '_cell-day', dayStr: '08' },
+    { id: 12, day: '9', type: '_cell-day', dayStr: '09' },
+    { id: 13, day: '10', type: '_cell-day _weekend', dayStr: '10' },
+    { id: 14, day: '11', type: '_cell-day _weekend', dayStr: '11' },
+    { id: 15, day: '12', type: '_cell-day', dayStr: '12' },
+    { id: 16, day: '13', type: '_cell-day', dayStr: '13' },
+    { id: 17, day: '14', type: '_cell-day', dayStr: '14' },
+    { id: 18, day: '15', type: '_cell-day', dayStr: '15' },
+    { id: 19, day: '16', type: '_cell-day', dayStr: '16' },
+    { id: 20, day: '17', type: '_cell-day _weekend', dayStr: '17' },
+    { id: 21, day: '18', type: '_cell-day _weekend', dayStr: '18' },
+    { id: 22, day: '19', type: '_cell-day', dayStr: '19' },
+    { id: 23, day: '20', type: '_cell-day', dayStr: '20' },
+    { id: 24, day: '21', type: '_cell-day', dayStr: '21' },
+    { id: 25, day: '22', type: '_cell-day', dayStr: '22' },
+    { id: 26, day: '23', type: '_cell-day', dayStr: '23' },
+    { id: 27, day: '24', type: '_cell-day _weekend', dayStr: '24' },
+    { id: 28, day: '25', type: '_cell-day _weekend', dayStr: '25' },
+    { id: 29, day: '26', type: '_cell-day', dayStr: '26' },
+    { id: 30, day: '27', type: '_cell-day', dayStr: '27' },
+    { id: 31, day: '28', type: '_cell-day', dayStr: '28' },
+    { id: 32, day: '29', type: '_cell-day', dayStr: '29' },
+    { id: 33, day: '30', type: '_cell-day', dayStr: '30' },
+    { id: 34, day: '31', type: '_cell-day _weekend', dayStr: '31' }
   ];
 
+  const serverDayNumber = task.date && task.date.includes('-') 
+    ? task.date.split('-')[2].substring(0, 2) 
+    : '';
+
+  const currentTopic = task.topic || task.category || 'Web Design';
   const categoryColorClass = 
-    task.topic === 'Web Design' || task.category === 'Web Design' ? '_orange' : 
-    task.topic === 'Research' || task.category === 'Research' ? '_green' : '_purple';
+    currentTopic === 'Web Design' || currentTopic === 'Web Dev' ? '_orange' : 
+    currentTopic === 'Research' ? '_green' : '_purple';
+
+  const displayDate = task.date ? new Date(task.date).toLocaleDateString('ru-RU') : 'Срок не указан';
 
   return (
     <div className="pop-browse" id="popBrowse" style={{ display: 'block' }}>
@@ -77,20 +82,18 @@ export default function PopBrowse({ cards, onDelete }) {
           <div className="pop-browse__content">
             
             <div className="pop-browse__top-block">
-              <h3 className="pop-browse__ttl">{task.title}</h3>
+              <h3 className="pop-browse__ttl">{task.title || 'Загрузка...'}</h3>
               <div className={`categories__theme theme-top ${categoryColorClass} _active-category`}>
-                <p className={categoryColorClass}>{task.category || task.topic}</p>
+                <p className={categoryColorClass}>{currentTopic}</p>
               </div>
             </div>
 
             <div className="pop-browse__status status">
               <p className="status__p subttl">Статус</p>
               <div className="status__themes">
-                
                 <div className="status__theme _active-status _gray">
                   <p>{currentStatus}</p>
                 </div>
-
               </div>
             </div>
 
@@ -99,7 +102,7 @@ export default function PopBrowse({ cards, onDelete }) {
                 <div className="form-browse__block">
                   <p className="subttl">Описание задачи</p>
                   <div className="form-browse__area calendar__p">
-                    {task.description || 'Описание задачи'}
+                    {task.description || 'Описание отсутствует'}
                   </div>
                 </div>
               </div>
@@ -137,7 +140,7 @@ export default function PopBrowse({ cards, onDelete }) {
 
                     <div className="calendar__cells" style={{ pointerEvents: 'none' }}>
                       {daysData.map((item) => {
-                        const isTaskDate = item.fullDate === task.date || item.day === '30';
+                        const isTaskDate = item.dayStr === serverDayNumber && item.type !== '_other-month';
                         return (
                           <div
                             key={item.id}
@@ -152,51 +155,60 @@ export default function PopBrowse({ cards, onDelete }) {
 
                 </div> 
               </div> 
-
             </div>
 
-            <input type="hidden" id="datepick_value" value={task.date} />
+            <input type="hidden" id="datepick_value" value={task.date || ''} />
             <div className="calendar__period" style={{ marginBottom: '20px' }}>
               <p className="calendar__p date-end">
-                Срок исполнения: <span className="date-control">{task.date}</span>
+                Срок исполнения: <span className="date-control">{displayDate}</span>
               </p>
             </div>
             
             <div className="theme-down__categories theme-down" style={{ marginBottom: '20px' }}>
               <p className="categories__p subttl">Категория</p>
               <div className={`categories__theme ${categoryColorClass} _active-category`}>
-                <p className={categoryColorClass}>{task.category || task.topic}</p>
+                <p className={categoryColorClass}>{currentTopic}</p>
               </div>
             </div>
 
             <div className="pop-browse__btn-browse">
               <div className="btn-group">
                 <button type="button" onClick={handleGoToEdit} className="btn-browse__edit _btn-bor _hover03">
-                  <a href="#" onClick={(e) => e.preventDefault()}>Редактировать задачу</a>
+                  Редактировать задачу
                 </button>
-                <button type="button" onClick={handleDeleteTask} className="btn-browse__delete _btn-bor _hover03">
-                  <a href="#" onClick={(e) => e.preventDefault()}>Удалить задачу</a>
+                <button 
+                  type="button" 
+                  onClick={handleDeleteTask} 
+                  className="btn-browse__delete _btn-bor _hover03"
+                >
+                  Удалить задачу
                 </button>
               </div>
-              <button type="button" onClick={handleClose} className="btn-browse__close _btn-bg _hover01">
-                <a href="#" onClick={(e) => e.preventDefault()}>Закрыть</a>
+              <button 
+                type="button" 
+                onClick={handleClose} 
+                className="btn-browse__close _btn-bg _hover01"
+              >
+                Закрыть
               </button>
             </div>
 
             <div className="pop-browse__btn-edit _hide">
               <div className="btn-group">
                 <button type="button" className="btn-edit__edit _btn-bg _hover01">
-                  <a href="#" onClick={(e) => e.preventDefault()}>Сохранить</a>
+                  Сохранить
                 </button>
-                <button type="button" onClick={handleClose} className="btn-edit__edit _btn-bor _hover03">
-                  <a href="#" onClick={(e) => e.preventDefault()}>Отменить</a>
-                </button>
-                <button type="button" onClick={handleDeleteTask} className="btn-edit__delete _btn-bor _hover03" id="btnDelete">
-                  <a href="#" onClick={(e) => e.preventDefault()}>Удалить задачу</a>
+                <button 
+                  type="button" 
+                  onClick={handleDeleteTask} 
+                  className="btn-edit__delete _btn-bor _hover03" 
+                  id="btnDelete"
+                >
+                  Удалить задачу
                 </button>
               </div>
               <button type="button" onClick={handleClose} className="btn-edit__close _btn-bg _hover01">
-                <a href="#" onClick={(e) => e.preventDefault()}>Закрыть</a>
+                Закрыть
               </button>
             </div>
 

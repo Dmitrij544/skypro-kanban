@@ -1,27 +1,62 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+
+const USER_API_URL = "https://wedev-api.sky.pro/api/user";
+
+async function signIn({ login, password }) {
+   return axios.post(`${USER_API_URL}/login`, { login, password }, {
+      headers: {
+         "Content-Type": null
+      }
+   })
+   .then(response => response.data.user)
+   .catch(error => {
+      const serverError = error?.response?.data?.error || error?.message || "Неверный логин или пароль";
+      return Promise.reject(String(serverError));
+   });
+}
 
 function LoginPage({ setAuth }) { 
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
 
     if (!email.trim() || !password.trim()) {
-      alert('Пожалуйста, заполните все поля ввода.');
+      setError("Пожалуйста, заполните все поля ввода.");
       return;
     }
 
-    console.log('Данные для входа:', { email, password });
+    try {
+      setIsSubmitting(true);
 
-    if (typeof setAuth === 'function') {
-      setAuth(true);
+      const userResponseData = await signIn({ 
+        login: email, 
+        password: password 
+      });
+
+      if (userResponseData) {
+        localStorage.setItem("userInfo", JSON.stringify(userResponseData));
+        
+        if (typeof setAuth === "function") {
+          setAuth(true);
+        }
+        
+        navigate("/");
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setIsSubmitting(false);
     }
-
-    navigate('/');
   };
 
   return (
@@ -42,6 +77,7 @@ function LoginPage({ setAuth }) {
               id="formlogin" 
               placeholder="Эл. почта"
               value={email}
+              disabled={isSubmitting}
               onChange={(e) => setEmail(e.target.value)}
             />
             
@@ -52,11 +88,23 @@ function LoginPage({ setAuth }) {
               id="formpassword" 
               placeholder="Пароль"
               value={password}
+              disabled={isSubmitting}
               onChange={(e) => setPassword(e.target.value)}
             />
             
-            <button type="submit" className="modal__btn-enter _hover01" id="btnEnter">
-              Войти
+            {error && (
+              <p style={{ color: "#f5222d", fontSize: '14px', margin: "0 0 10px 0", textAlign: "center" }}>
+                {error}
+              </p>
+            )}
+            
+            <button 
+              type="submit" 
+              className="modal__btn-enter _hover01" 
+              id="btnEnter"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Вход..." : "Войти"}
             </button>
             
             <div className="modal__form-group">

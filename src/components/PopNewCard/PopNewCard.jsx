@@ -15,17 +15,16 @@ function PopNewCard({ onAddTask, onClose }) {
       return;
     }
 
-    const newTask = {
-      id: Date.now(), 
-      topic: selectedCategory, 
+    const taskData = {
       title: title.trim(),
+      topic: selectedCategory, 
+      status: 'Без статуса', 
       description: description.trim(),
-      date: selectedDate.toLocaleDateString('ru-RU'), 
-      status: 'Без статуса' 
+      date: selectedDate ? selectedDate.toISOString() : new Date().toISOString()
     };
 
     if (typeof onAddTask === 'function') {
-      onAddTask(newTask); 
+      onAddTask(taskData); 
     }
     
     if (typeof onClose === 'function') {
