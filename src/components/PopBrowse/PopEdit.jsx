@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import ThemeContext from '../../ThemeContext'; // ДОБАВИЛИ: Импорт вашего контекста темы
 
 export default function PopEdit({ cards, onSaveTask, onDeleteTask }) {
   const { id } = useParams();
@@ -9,6 +10,11 @@ export default function PopEdit({ cards, onSaveTask, onDeleteTask }) {
 
   const [currentStatus, setCurrentStatus] = useState(task?.status || 'Без статуса');
   const [description, setDescription] = useState(task?.description || '');
+
+  // ДОБАВИЛИ: Чтение темы из вашего рабочего контекста
+  const context = useContext(ThemeContext);
+  const theme = context?.theme || 'light';
+  const isDark = theme === 'dark';
 
   const daysData = [
     { id: 1, day: '29', type: '_other-month', fullDate: '2023-08-29T00:00:00.000Z', dayStr: '29' },
@@ -163,60 +169,58 @@ export default function PopEdit({ cards, onSaveTask, onDeleteTask }) {
                       <div className="calendar-edit__day-name -weekend-">сб</div>
                       <div className="calendar-edit__day-name -weekend-">вс</div>
                     </div>
+
                     <div className="calendar-edit__cells">
                       {daysData.map((item) => {
                         const isSelected = selectedDay?.id === item.id;
                         return (
                           <div
                             key={item.id}
-                            className={`calendar-edit__cell ${item.type} ${isSelected ? '_active-day-edit' : ''}`}
-                            onClick={() => setSelectedDay(item)}
-                            style={{ cursor: 'pointer' }}
+                            onClick={() => item.type !== '_other-month' && setSelectedDay(item)}
+                            className={`calendar-edit__cell ${item.type} ${isSelected ? '_active-day' : ''}`}
+                            style={{ cursor: item.type !== '_other-month' ? 'pointer' : 'default' }}
                           >
                             {item.day}
                           </div>
                         );
                       })}
                     </div>
-                  </div>
-                </div>
-              </div>
+                  </div> 
+                </div> 
+              </div> 
             </div>
 
-            <input type="hidden" id="datepick_value" value={selectedDay ? selectedDay.fullDate : (task.date || '')} />
             <div className="calendar__period" style={{ marginBottom: '20px' }}>
               <p className="calendar__p date-end">
                 Срок исполнения: <span className="date-control">{displayDate}</span>
               </p>
             </div>
             
-            <div className="theme-down__categories theme-down" style={{ marginBottom: '20px' }}>
-              <p className="categories__p subttl">Категория</p>
-              <div className={`categories__theme ${categoryColorClass} _active-category`}>
-                <p className={categoryColorClass}>{currentTopic}</p>
-              </div>
-            </div>
-
-            <div className="pop-browse__btn-edit">
+            <div className="pop-browse__btn-browse">
               <div className="btn-group">
-                <button type="button" onClick={handleSaveChanges} className="btn-edit__edit _btn-bg _hover01">
-                  <a href="#" onClick={(e) => e.preventDefault()}>Сохранить</a>
+                <button className="pop-browse__btn-edit _btn-bg _hover01" onClick={handleSaveChanges}>
+                  Сохранить
                 </button>
-                <button type="button" onClick={handleClose} className="btn-edit__edit _btn-bor _hover03">
-                  <a href="#" onClick={(e) => e.preventDefault()}>Отменить</a>
-                </button>
-                <button type="button" onClick={handleDelete} className="btn-edit__delete _btn-bor _hover03" id="btnDelete">
-                  <a href="#" onClick={(e) => e.preventDefault()}>Удалить задачу</a>
+                <button className="pop-browse__btn-delete _btn-bor _hover03" onClick={handleDelete}>
+                  Удалить задачу
                 </button>
               </div>
-              <button type="button" onClick={handleClose} className="btn-edit__close _btn-bg _hover01">
-                <a href="#" onClick={(e) => e.preventDefault()}>Закрыть</a>
+              <button className="pop-browse__btn-close _btn-bor _hover03" onClick={handleClose}>
+                Закрыть
               </button>
             </div>
 
           </div>
         </div>
       </div>
+
+      {isDark && (
+        <img 
+          src="images/logo_dark.png" 
+          alt="theme-trigger" 
+          style={{ display: 'none' }} 
+        />
+      )}
     </div>
   );
 }

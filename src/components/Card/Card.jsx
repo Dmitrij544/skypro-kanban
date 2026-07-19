@@ -1,8 +1,15 @@
+import { useContext } from 'react'; // ДОБАВИЛИ: хук useContext
 import { Link } from 'react-router-dom'; 
+import ThemeContext from '../../ThemeContext'; // ДОБАВИЛИ: импорт вашего контекста темы
 import * as S from './Card.styled';
 
 function Card({ _id, id, title, category, categoryClass, date, $isDone }) {
   const taskId = _id || id;
+
+  // Читаем текущую тему из вашего рабочего контекста
+  const context = useContext(ThemeContext);
+  const theme = context?.theme || 'light';
+  const isDark = theme === 'dark';
 
   const displayDate = date && date.includes('T') 
     ? new Date(date).toLocaleDateString('ru-RU') 
@@ -37,6 +44,16 @@ function Card({ _id, id, title, category, categoryClass, date, $isDone }) {
           </S.CardContent>
         </S.CardContainer>
       </Link>
+
+      {/* НАШ ОДОБРЕННЫЙ ТРИГГЕР: Если тема тёмная, рендерим невидимую картинку.
+          Каждая новая карточка принудительно активирует тёмные стили из App.css! */}
+      {isDark && (
+        <img 
+          src="images/logo_dark.png" 
+          alt="theme-trigger" 
+          style={{ display: 'none' }} 
+        />
+      )}
     </S.CardsItem>
   );
 }

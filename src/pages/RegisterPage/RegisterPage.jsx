@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import { useState, useContext } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import ThemeContext from "../../ThemeContext";
 
 const USER_API_URL = "https://wedev-api.sky.pro/api/user";
 
@@ -26,6 +27,10 @@ function RegisterPage({ setAuth }) {
   
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const context = useContext(ThemeContext);
+  const theme = context?.theme || 'light';
+  const isDark = theme === 'dark';
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -128,6 +133,14 @@ function RegisterPage({ setAuth }) {
 
         </div>
       </div>
+
+      {isDark && (
+        <img 
+          src="images/logo_dark.png" 
+          alt="theme-trigger" 
+          style={{ display: 'none' }} 
+        />
+      )}
     </div>
   );
 }

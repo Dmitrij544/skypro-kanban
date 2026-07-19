@@ -1,11 +1,17 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react'; // ДОБАВИЛИ: useContext
 import Calendar from '../Calendar/Calendar'; 
+import ThemeContext from '../../ThemeContext'; // ДОБАВИЛИ: Импорт вашего контекста темы
 
 function PopNewCard({ onAddTask, onClose }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Web Design');
   const [selectedDate, setSelectedDate] = useState(new Date());
+
+  // ДОБАВИЛИ: Чтение темы из вашего рабочего контекста
+  const context = useContext(ThemeContext);
+  const theme = context?.theme || 'light';
+  const isDark = theme === 'dark';
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -119,6 +125,16 @@ function PopNewCard({ onAddTask, onClose }) {
           </div>
         </div>
       </div>
+
+      {/* НАШ ОДОБРЕННЫЙ ТРИГГЕР: Невидимая картинка, которая 
+          активирует все стили карточки из App.css на любом роуте! */}
+      {isDark && (
+        <img 
+          src="images/logo_dark.png" 
+          alt="theme-trigger" 
+          style={{ display: 'none' }} 
+        />
+      )}
     </div>
   );
 }

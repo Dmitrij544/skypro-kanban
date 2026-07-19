@@ -1,19 +1,32 @@
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ThemeContext from '../../ThemeContext';
+import AuthContext from '../../AuthContext'; 
 import * as S from './PopUser.styled';
 
-function PopUser({ setAuth }) { 
+// ИСПРАВЛЕНО: Убрали проп setAuth из параметров, теперь компонент полностью автономен!
+function PopUser() { 
   const navigate = useNavigate();
+
+  // Читаем тему для скрытого триггера CSS
+  const themeContext = useContext(ThemeContext);
+  const theme = themeContext?.theme || 'light';
+  const isDark = theme === 'dark';
+
+  // Извлекаем функцию logout из контекста авторизации
+  const auth = useContext(AuthContext);
+  const logout = auth?.logout || (() => {});
 
   const handleLogout = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    localStorage.removeItem("userInfo");
-
-    if (typeof setAuth === 'function') {
-      setAuth(false); 
+    // 1. Очищаем глобальный контекст авторизации (user становится null)
+    if (typeof logout === 'function') {
+      logout();
     }
     
+    // 2. Направляем роутер на страницу входа
     navigate('/login');
   };
 
@@ -45,6 +58,14 @@ function PopUser({ setAuth }) {
           </S.PopExitForm>
         </S.PopExitBlock>
       </S.PopExitContainer>
+
+      {isDark && (
+        <img 
+          src="images/logo_dark.png" 
+          alt="theme-trigger" 
+          style={{ display: 'none' }} 
+        />
+      )}
     </S.PopExit>
   );
 }

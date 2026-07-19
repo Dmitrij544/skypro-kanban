@@ -16,6 +16,13 @@ export const CardContainer = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   padding: 15px 13px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+
+  /* НАШ ПОБЕДНЫЙ МЕТОД: Меняем фон карточки на тёмный */
+  html:has(img[src*="logo_dark"]) & {
+    background-color: #20202C;
+    border: 0.7px solid #4E5566;
+  }
 `;
 
 export const CardGroup = styled.div`
@@ -94,10 +101,16 @@ export const CardTitle = styled.h3`
   font-weight: 500;
   line-height: 18px;
   color: #000000;
+  transition: color 0.2s ease;
 
   ${props => props.$isDone && `
     text-decoration: line-through;
   `}
+
+  /* НАШ ПОБЕДНЫЙ МЕТОД: Красим название задачи в белый цвет */
+  html:has(img[src*="logo_dark"]) & {
+    color: #FFFFFF;
+  }
 `;
 
 export const CardDate = styled.div`

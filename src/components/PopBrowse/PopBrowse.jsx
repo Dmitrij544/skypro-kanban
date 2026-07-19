@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import ThemeContext from '../../ThemeContext'; // ДОБАВИЛИ: Импорт вашего контекста темы
 
 export default function PopBrowse({ cards, onDeleteTask }) {
   const { id } = useParams();
@@ -8,6 +9,11 @@ export default function PopBrowse({ cards, onDeleteTask }) {
   const task = cards?.find((t) => String(t._id || t.id) === String(id)) || {};
 
   const [currentStatus] = useState(task?.status || 'Без статуса');
+
+  // ДОБАВИЛИ: Чтение темы из вашего рабочего контекста
+  const context = useContext(ThemeContext);
+  const theme = context?.theme || 'light';
+  const isDark = theme === 'dark';
 
   const handleClose = (e) => {
     if (e) e.preventDefault();
@@ -144,7 +150,7 @@ export default function PopBrowse({ cards, onDeleteTask }) {
                         return (
                           <div
                             key={item.id}
-                            className={`calendar__cell ${item.type} ${isTaskDate ? '_active' : ''}`}
+                            className={`calendar__cell ${item.type} ${isTaskDate ? '_active-day' : ''}`}
                           >
                             {item.day}
                           </div>
@@ -164,50 +170,16 @@ export default function PopBrowse({ cards, onDeleteTask }) {
               </p>
             </div>
             
-            <div className="theme-down__categories theme-down" style={{ marginBottom: '20px' }}>
-              <p className="categories__p subttl">Категория</p>
-              <div className={`categories__theme ${categoryColorClass} _active-category`}>
-                <p className={categoryColorClass}>{currentTopic}</p>
-              </div>
-            </div>
-
             <div className="pop-browse__btn-browse">
               <div className="btn-group">
-                <button type="button" onClick={handleGoToEdit} className="btn-browse__edit _btn-bor _hover03">
+                <button className="pop-browse__btn-edit _btn-bor _hover03" onClick={handleGoToEdit}>
                   Редактировать задачу
                 </button>
-                <button 
-                  type="button" 
-                  onClick={handleDeleteTask} 
-                  className="btn-browse__delete _btn-bor _hover03"
-                >
+                <button className="pop-browse__btn-delete _btn-bor _hover03" onClick={handleDeleteTask}>
                   Удалить задачу
                 </button>
               </div>
-              <button 
-                type="button" 
-                onClick={handleClose} 
-                className="btn-browse__close _btn-bg _hover01"
-              >
-                Закрыть
-              </button>
-            </div>
-
-            <div className="pop-browse__btn-edit _hide">
-              <div className="btn-group">
-                <button type="button" className="btn-edit__edit _btn-bg _hover01">
-                  Сохранить
-                </button>
-                <button 
-                  type="button" 
-                  onClick={handleDeleteTask} 
-                  className="btn-edit__delete _btn-bor _hover03" 
-                  id="btnDelete"
-                >
-                  Удалить задачу
-                </button>
-              </div>
-              <button type="button" onClick={handleClose} className="btn-edit__close _btn-bg _hover01">
+              <button className="pop-browse__btn-close _btn-bg _hover01" onClick={handleClose}>
                 Закрыть
               </button>
             </div>
@@ -215,6 +187,16 @@ export default function PopBrowse({ cards, onDeleteTask }) {
           </div>
         </div>
       </div>
+
+      {/* НАШ ОДОБРЕННЫЙ ТРИГГЕР: Невидимая картинка, которая 
+          активирует все стили карточки просмотра из App.css на любом роуте! */}
+      {isDark && (
+        <img 
+          src="images/logo_dark.png" 
+          alt="theme-trigger" 
+          style={{ display: 'none' }} 
+        />
+      )}
     </div>
   );
 }

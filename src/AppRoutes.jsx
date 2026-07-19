@@ -1,5 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import CardPage from './pages/CardPage/CardPage'; 
 import LoginPage from './pages/LoginPage/LoginPage';
@@ -11,33 +10,57 @@ import NotFoundPage from './pages/NotFound/NotFound';
 import PopBrowse from './components/PopBrowse/PopBrowse';
 import PopEdit from './components/PopBrowse/PopEdit';
 
-function AppRoutes({ cards, isAuth, setAuth, onSaveTask, onDeleteTask, onAddTask }) {
+function RequireAuth({ isAuth, children }) {
+  return isAuth ? children : <Navigate to="/login" replace />;
+}
+
+function AppRoutes({ isAuth }) {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage setAuth={setAuth} />} />
-      <Route path="/register" element={<RegisterPage setAuth={setAuth} />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
 
-      <Route element={<ProtectedRoute isAuth={isAuth} />}>
-        <Route path="/" element={<CardPage cards={cards} setAuth={setAuth} />}>
-          <Route path="exit" element={<ExitPage setAuth={setAuth} />} />
-          <Route path="new-card" element={<TaskNewPage onAddTask={onAddTask} />} />
-          
-          <Route 
-            path="task/:id" 
-            element={<PopBrowse cards={cards} onDeleteTask={onDeleteTask} />} 
-          />
-          <Route 
-            path="task/:id/edit" 
-            element={
-              <PopEdit 
-                cards={cards} 
-                onSaveTask={onSaveTask} 
-                onDeleteTask={onDeleteTask} 
-              />
-            } 
-          />
-        </Route>
-      </Route>
+      <Route 
+        path="/" 
+        element={
+          <RequireAuth isAuth={isAuth}>
+            <CardPage />
+          </RequireAuth>
+        } 
+      />
+      <Route 
+        path="/exit" 
+        element={
+          <RequireAuth isAuth={isAuth}>
+            <ExitPage />
+          </RequireAuth>
+        } 
+      />
+      <Route 
+        path="/new-card" 
+        element={
+          <RequireAuth isAuth={isAuth}>
+            <TaskNewPage />
+          </RequireAuth>
+        } 
+      />
+      
+      <Route 
+        path="/task/:id" 
+        element={
+          <RequireAuth isAuth={isAuth}>
+            <PopBrowse />
+          </RequireAuth>
+        } 
+      />
+      <Route 
+        path="/task/:id/edit" 
+        element={
+          <RequireAuth isAuth={isAuth}>
+            <PopEdit />
+          </RequireAuth>
+        } 
+      />
 
       <Route path="/404" element={<NotFoundPage />} />
       <Route path="*" element={<NotFoundPage />} />

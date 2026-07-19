@@ -12,6 +12,14 @@ export const HeaderContainer = styled.header`
   width: 100%;
   margin: 0 auto;
   background-color: #ffffff;
+  border-bottom: 1px solid #eaeaea;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+
+  /* Наш победный метод: перекрашиваем контейнер шапки */
+  html:has(img[src*="logo_dark"]) & {
+    background-color: #20202C;
+    border-bottom: 1px solid #4E5566;
+  }
 `;
 
 export const Container = styled.div`
@@ -26,12 +34,9 @@ export const HeaderBlock = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 10px;
-  padding-bottom: 10px;
 `;
 
 export const HeaderLogo = styled.div`
-  display: ${props => (props.$dark ? 'none' : 'block')};
   margin-left: 5px;
   margin-top: 5px;
   img {
@@ -40,13 +45,9 @@ export const HeaderLogo = styled.div`
 `;
 
 export const HeaderNav = styled.nav`
-  max-width: 290px;
-  padding: 0;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   position: relative;
-  margin-right: 18px;
 `;
 
 export const BtnMainNew = styled(BaseButton)`
@@ -60,13 +61,12 @@ export const BtnMainNew = styled(BaseButton)`
     color: #ffffff;
     font-size: 14px;
     font-weight: 500;
-    line-height: 14px;
     text-decoration: none;
-    width: 100%;
-    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100%;
   }
 
   &:hover {
@@ -74,12 +74,14 @@ export const BtnMainNew = styled(BaseButton)`
   }
 `;
 
-export const HeaderUser = styled.a`
+export const HeaderUser = styled.button`
   height: 20px;
   display: flex;
   align-items: center;
   cursor: pointer;
-  text-decoration: none;
+  background: transparent;
+  border: none;
+  outline: none;
   color: #565EEF;
   font-size: 14px;
   font-weight: 500;
@@ -94,69 +96,95 @@ export const HeaderUser = styled.a`
     border-left: 1.5px solid #565EEF;
     border-bottom: 1.5px solid #565EEF;
     transform: rotate(-45deg);
-    margin: -6px 0 0 5px;
-    padding: 0;
-    transition: border-color 0.2s ease;
+    margin: -2px 0 0 5px;
   }
 
   &:hover {
     color: #33399b; 
-    
     &::after {
       border-left-color: #33399b;
       border-bottom-color: #33399b;
     }
   }
+
+  /* Наш победный метод: кнопка "Ivan Ivanov" и стрелочка становятся белыми */
+  html:has(img[src*="logo_dark"]) & {
+    color: #FFFFFF;
+    
+    &::after {
+      border-left-color: #FFFFFF;
+      border-bottom-color: #FFFFFF;
+    }
+
+    &:hover {
+      color: #94A6BE;
+      &::after {
+        border-left-color: #94A6BE;
+        border-bottom-color: #94A6BE;
+      }
+    }
+  }
 `;
 
 export const PopUserSet = styled.div`
-  display: block; 
   position: absolute;
   top: 42px;
   right: 0;
   width: 213px;
-  height: 205px;
   border-radius: 10px;
   border: 0.7px solid rgba(148, 166, 190, 0.4);
   background: #FFF;
   box-shadow: 0px 10px 39px 0px rgba(26, 56, 101, 0.21);
-  padding: 34px;
-  text-align: center;
-  z-index: 2;
+  padding: 24px;
+  z-index: 10;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+
+  /* Наш победный метод: само табло становится благородным серым */
+  html:has(img[src*="logo_dark"]) & {
+    background-color: #20202C;
+    border: 0.7px solid #4E5566;
+    box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.5);
+  }
 `;
 
 export const PopUserSetName = styled.p`
   color: #000;
   font-size: 14px;
   font-weight: 500;
-  line-height: 21px;
-  letter-spacing: -0.14px;
   margin-bottom: 4px;
+  transition: color 0.2s ease;
+
+  /* Наш победный метод: имя пользователя внутри табло становится белым */
+  html:has(img[src*="logo_dark"]) & {
+    color: #FFFFFF;
+  }
 `;
 
 export const PopUserSetMail = styled.p`
   color: #94A6BE;
   font-size: 14px;
-  line-height: 21px;
-  letter-spacing: -0.14px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 `;
 
 export const PopUserSetTheme = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 
   p {
     color: #000;
     font-size: 14px;
-    line-height: 21px;
-    letter-spacing: -0.14px;
+    transition: color 0.2s ease;
+
+    /* Наш победный метод: текст "Темная тема" становится белым */
+    html:has(img[src*="logo_dark"]) & {
+      color: #FFFFFF;
+    }
   }
 `;
 
-export const Checkbox = styled.input.attrs({ type: 'checkbox' })`
+export const Checkbox = styled.input`
   position: relative;
   width: 24px;
   height: 13px;
@@ -175,16 +203,22 @@ export const Checkbox = styled.input.attrs({ type: 'checkbox' })`
     height: 11px;
     border-radius: 50%;
     background-color: #94A6BE;
-    transition: 0.5s;
+    transition: 0.3s;
   }
 
   &:checked::before {
     left: 12px;
+    background-color: #565EEF;
+  }
+
+  /* Наш победный метод: меняем подложку выключенного тумблера для темного режима */
+  html:has(img[src*="logo_dark"]) & {
+    background: #4E5566;
   }
 `;
 
 export const PopUserBtn = styled(BaseButton)`
-  width: 72px;
+  width: 100%;
   height: 30px;
   background: transparent;
   color: #565EEF;
@@ -198,15 +232,28 @@ export const PopUserBtn = styled(BaseButton)`
     width: 100%;
     height: 100%;
     line-height: 28px;
+    transition: color 0.2s ease;
   }
 
   &:hover {
-    background-color: #33399b; 
+    background-color: #565EEF; 
+    color: #FFFFFF;
+    a { color: #FFFFFF; }
+  }
+
+  /* Наш победный метод: кнопка "Выйти" получает белую рамку и белые буквы */
+  html:has(img[src*="logo_dark"]) & {
+    border: 1px solid #FFFFFF;
     color: #FFFFFF;
     
     a {
       color: #FFFFFF;
     }
+
+    &:hover {
+      background-color: #FFFFFF;
+      color: #20202C;
+      a { color: #20202C; }
+    }
   }
 `;
-
