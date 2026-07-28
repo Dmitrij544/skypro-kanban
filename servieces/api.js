@@ -14,8 +14,7 @@ export async function postTask({ token, taskData }) {
    return axios.post(API_URL, taskData, {
       headers: { Authorization: `Bearer ${token}` }
    })
-   .then(response => response.data.tasks)
-   .catch(error => Promise.reject(error?.response?.data?.error || error?.message || 'Ошибка создания'));
+   .then(response => response.data.tasks);
 }
 
 export async function editTask({ token, id, taskData }) {

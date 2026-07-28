@@ -1,31 +1,48 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import AuthContext from "./AuthContext"; 
-// ИСПРАВЛЕНО: Удалили неиспользуемый импорт TasksContext, линтер полностью чист!
 import ThemeContext from "./ThemeContext"; 
-import LoginPage from "./pages/LoginPage/LoginPage"; 
-
-import Header from "./components/Header/Header";       
-import AddTaskForm from "./AddTaskForm"; 
-import TaskList from "./App/TaskList/TaskList";         
-import "./App.css";
+import TasksContext from "./TasksContext"; 
+import AppRoutes from "./AppRoutes"; 
+import "./App.css"; 
 
 function App() {
   const { theme } = useContext(ThemeContext) || { theme: 'light' };
   const { user } = useContext(AuthContext) || {};
-
   const isAuth = !!user;
 
-  if (!isAuth) {
-    return <LoginPage />;
+  const { fetchTasks } = useContext(TasksContext) || {};
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const getTasksData = async () => {
+      if (isAuth && typeof fetchTasks === 'function') {
+        setIsLoading(true); 
+        try {
+          await fetchTasks(); 
+        } catch (err) {
+          console.error("Ошибка при инициализации приложения:", err);
+        }
+        setIsLoading(false); 
+      } else {
+        setIsLoading(false); 
+      }
+    };
+
+    getTasksData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuth]);
+  if (isLoading) {
+    return (
+      <div className="loader-container">
+        <p className="loader-text">Данные загружаются...</p>
+      </div>
+    );
   }
 
   return (
-    <div className={`wrapper ${theme === 'dark' ? '_dark' : 'light'}`}>
-      <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
-        <Header />
-        <AddTaskForm />
-        <TaskList />
-      </div>
+    <div className={`wrapper ${(theme === 'dark' && isAuth) ? '_dark' : 'light'}`}>
+      <AppRoutes isAuth={isAuth} />
     </div>
   );
 }

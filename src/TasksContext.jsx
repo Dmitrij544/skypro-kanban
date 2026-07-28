@@ -1,113 +1,111 @@
 import { createContext, useState, useContext } from 'react';
-import axios from 'axios';
 import AuthContext from './AuthContext';
-
+import axios from 'axios';
+import { fetchTasks, editTask, deleteTask } from '../servieces/api'; 
 const TasksContext = createContext(null);
-const KANBAN_API_URL = "https://wedev-api.sky.pro/api/kanban";
 
 export function TasksProvider({ children }) {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasksState] = useState([]);
   const { user } = useContext(AuthContext) || {};
 
-  const fetchTasksData = async () => {
-    if (!user || !user.token) {
-      setTasks([]);
+  const loadTasks = async () => {
+    if (!user?.token) {
+      setTasksState([]);
       return;
     }
-
-    if (user.token === 'fake-test-token') {
-      setTasks([
-        { 
-          _id: 'test-1', 
-          title: 'Тестовая задача Анны', 
-          topic: 'Web Design', 
-          status: 'Без статуса', 
-          description: 'Локальный режим контекста работает идеально!', 
-          date: new Date().toISOString() 
-        }
-      ]);
-      return;
-    }
-
     try {
-      const res = await axios.get(KANBAN_API_URL, { 
-        headers: { Authorization: `Bearer ${user.token}` } 
-      });
-      setTasks(res.data.tasks || []);
-    } catch (err) {
-      console.error("Ошибка загрузки задач:", err);
+      const serverTasks = await fetchTasks({ token: user.token });
+      setTasksState(serverTasks || []);
+    } catch (error) {
+      console.error("Ошибка загрузки задач:", error);
     }
   };
 
   const addTask = async (taskData) => {
     if (!user?.token) return;
 
-    if (user.token === 'fake-test-token') {
-      const newTask = {
-        _id: `local-${Date.now()}`,
-        ...taskData,
-        status: 'Без статуса',
-        date: new Date().toISOString()
+    try {
+      const rawDate = taskData?.date ? new Date(taskData.date) : new Date();
+      const year = rawDate.getFullYear();
+      const month = String(rawDate.getMonth() + 1).padStart(2, '0');
+      const day = String(rawDate.getDate()).padStart(2, '0');
+      const cleanPrimitiveDate = `${year}-${month}-${day}`;
+
+      const cleanedTaskObject = {
+        title: (taskData?.title || "Новая задача").trim(),
+        topic: (taskData?.topic || "Web Design").trim(), 
+        status: "Без статуса",
+        description: (taskData?.description || "").trim(),
+        date: cleanPrimitiveDate
       };
-      setTasks(prev => [...prev, newTask]);
-      return;
+
+      const jsonBody = JSON.stringify(cleanedTaskObject);
+      const response = await axios.post("https://wedev-api.sky.pro/api/kanban", jsonBody, {
+        headers: { 
+          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "text/plain" 
+        }
+      });
+      
+      setTasksState(response.data.tasks || []);
+    } catch (err) {
+      console.error("=== ОШИБКА БЭКЕНДА ===");
+      alert(`Ошибка создания задачи: ${err?.response?.data?.error || err.message}`);
     }
+  };
+
+  const editTaskInList = async (id, updatedTaskData) => {
+    if (!user?.token) return;
 
     try {
-      const res = await axios.post(KANBAN_API_URL, taskData, {
-        headers: { Authorization: `Bearer ${user.token}`, "Content-Type": "application/json" }
+      const jsonBody = JSON.stringify(updatedTaskData);
+
+      console.log("=== ОТПРАВЛЯЕМ ОБНОВЛЕННЫЙ JSON ЗАДАЧИ ===", jsonBody);
+
+      const response = await axios.put(`https://wedev-api.sky.pro/api/kanban/${id}`, jsonBody, {
+        headers: { 
+          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "text/plain" 
+        }
       });
-      setTasks(res.data.tasks || []);
+      
+      setTasksState(response.data.tasks || []);
     } catch (err) {
-      alert(`Ошибка создания: ${err.message}`);
+      console.error("=== ОШИБКА РЕДАКТИРОВАНИЯ БЭКЕНДА ===");
+      alert(`Ошибка изменения задачи: ${err?.response?.data?.error || err.message}`);
     }
   };
 
   const toggleTask = async (id) => {
     if (!user?.token) return;
+    const currentTask = tasks.find(t => (t._id || t.id) === id);
+    if (!currentTask) return;
 
-    if (user.token === 'fake-test-token') {
-      setTasks(prev => prev.map(t => 
-        (t._id || t.id) === id 
-          ? { ...t, status: t.status === 'Готово' ? 'Без статуса' : 'Готово' } 
-          : t
-      ));
-      return;
-    }
-
-    const task = tasks.find(t => (t._id || t.id) === id);
-    if (!task) return;
     try {
-      const nextStatus = task.status === 'Готово' ? 'Без статуса' : 'Готово';
-      const res = await axios.put(`${KANBAN_API_URL}/${id}`, { status: nextStatus }, {
-        headers: { Authorization: `Bearer ${user.token}`, "Content-Type": "application/json" }
+      const nextStatus = currentTask.status === 'Готово' ? 'Без статуса' : 'Готово';
+      const updatedTasks = await editTask({ 
+        token: user.token, 
+        id, 
+        taskData: { ...currentTask, status: nextStatus } 
       });
-      setTasks(res.data.tasks || []);
+      setTasksState(updatedTasks || []);
     } catch (err) {
-      alert(`Ошибка обновления: ${err.message}`);
+      alert(`Ошибка обновления: ${err}`);
     }
   };
 
-  const deleteTask = async (id) => {
+  const deleteTaskFromList = async (id) => {
     if (!user?.token) return;
-
-    if (user.token === 'fake-test-token') {
-      setTasks(prev => prev.filter(t => (t._id || t.id) !== id));
-      return;
-    }
-
     try {
-      const res = await axios.delete(`${KANBAN_API_URL}/${id}`, {
-        headers: { Authorization: `Bearer ${user.token}` }
-      });
-      setTasks(res.data.tasks || []);
+      const updatedTasks = await deleteTask({ token: user.token, id });
+      setTasksState(updatedTasks || []);
     } catch (err) {
-      alert(`Ошибка удаления: ${err.message}`);
+      alert(`Ошибка удаления: ${err}`);
     }
   };
 
   return (
-    <TasksContext.Provider value={{ tasks, setTasks, fetchTasks: fetchTasksData, addTask, toggleTask, deleteTask }}>
+    <TasksContext.Provider value={{ tasks, fetchTasks: loadTasks, addTask, editTask: editTaskInList, toggleTask, deleteTask: deleteTaskFromList }}>
       {children}
     </TasksContext.Provider>
   );

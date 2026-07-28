@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { signIn, signUp } from "../services/auth";
+import authService from "../servieces/auth"; 
 import BaseInput from "./BaseInput";
 import BaseButton from "./BaseButton";
+import AuthContext from "./AuthContext";
 
-const AuthForm = ({ isSignUp, setIsAuth }) => {
+const AuthForm = ({ isSignUp }) => {
    const navigate = useNavigate();
+   const { login } = useContext(AuthContext) || {};
 
    const [formData, setFormData] = useState({
       name: "",
@@ -30,13 +32,11 @@ const AuthForm = ({ isSignUp, setIsAuth }) => {
          setError("Заполните все поля");
          isValid = false;
       }
-
       if (!formData.login.trim()) {
          newErrors.login = "Заполните поле";
          setError("Заполните все поля");
          isValid = false;
       }
-
       if (!formData.password.trim()) {
          newErrors.password = "Заполните поле";
          setError("Заполните все поля");
@@ -62,19 +62,33 @@ const AuthForm = ({ isSignUp, setIsAuth }) => {
       if (!validateForm()) {
          return;
       }
+
+      setError("");
+      
+      const trimmedLogin = formData.login.trim();
+      const trimmedPassword = formData.password.trim();
+
       try { 
          const data = !isSignUp
-            ? await signIn({ login: formData.login, password: formData.password })
-            : await signUp(formData);
+            ? await authService.signIn({ login: trimmedLogin, password: trimmedPassword })
+            : await authService.signUp({ name: formData.name.trim(), login: trimmedLogin, password: trimmedPassword });
 
          if (data) {
-            setIsAuth(true);
             localStorage.setItem("userInfo", JSON.stringify(data));
+            
+            if (typeof login === 'function') {
+               login(data);
+            }
+            
             navigate("/");
          }
       } catch (err) {
-         const errorMessage = err instanceof Error ? err.message : String(err);
-         setError(errorMessage);
+         const errStr = String(err);
+         if (errStr.includes("400") || errStr.toLowerCase().includes("bad request") || errStr.includes("найден")) {
+            setError("Пользователя с такими данными нет. Проверьте логин или зарегистрируйтесь.");
+         } else {
+            setError(errStr);
+         }
       }
    };
 
@@ -117,7 +131,7 @@ const AuthForm = ({ isSignUp, setIsAuth }) => {
                      />
                   </div>
                   
-                  {error && <p style={{ color: "red" }}>{error}</p>}
+                  {error && <p style={{ color: "red", textAlign: "center", marginBottom: "15px" }}>{error}</p>}
                   
                   <BaseButton
                      type="secondary"
@@ -128,12 +142,12 @@ const AuthForm = ({ isSignUp, setIsAuth }) => {
                   {!isSignUp && (
                      <div className="form-group">
                         <p>Нужно зарегистрироваться?</p>
-                        <Link to="/sign-up">Регистрируйтесь здесь</Link>
+                        <Link to="/register">Регистрируйтесь здесь</Link>
                      </div>
                   )}
                   {isSignUp && (
                      <div className="form-group">
-                        <p>Есть аккаунт? <Link to="/sign-in">Войдите здесь</Link></p>
+                        <p>Есть аккаунт? <Link to="/login">Войдите здесь</Link></p>
                      </div>
                   )}
                </form>

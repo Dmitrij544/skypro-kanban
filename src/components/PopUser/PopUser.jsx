@@ -4,16 +4,13 @@ import ThemeContext from '../../ThemeContext';
 import AuthContext from '../../AuthContext'; 
 import * as S from './PopUser.styled';
 
-// ИСПРАВЛЕНО: Убрали проп setAuth из параметров, теперь компонент полностью автономен!
 function PopUser() { 
   const navigate = useNavigate();
 
-  // Читаем тему для скрытого триггера CSS
   const themeContext = useContext(ThemeContext);
   const theme = themeContext?.theme || 'light';
   const isDark = theme === 'dark';
 
-  // Извлекаем функцию logout из контекста авторизации
   const auth = useContext(AuthContext);
   const logout = auth?.logout || (() => {});
 
@@ -21,12 +18,10 @@ function PopUser() {
     e.preventDefault();
     e.stopPropagation();
 
-    // 1. Очищаем глобальный контекст авторизации (user становится null)
     if (typeof logout === 'function') {
       logout();
     }
     
-    // 2. Направляем роутер на страницу входа
     navigate('/login');
   };
 

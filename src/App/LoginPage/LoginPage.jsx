@@ -4,9 +4,9 @@ import TasksContext from '../../TasksContext';
 import TaskItem from './TaskItem'; 
 
 function TaskList() {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext) || { theme: 'light' };
   
-  const { tasks } = useContext(TasksContext);
+  const { tasks } = useContext(TasksContext) || { tasks: [] };
 
   return (
     <div 
@@ -19,11 +19,11 @@ function TaskList() {
     >
       <h2>Список задач</h2>
       
-      {tasks.length === 0 ? (
+      {!tasks || tasks.length === 0 ? (
         <p>Задач пока нет. Добавьте первую!</p>
       ) : (
         tasks.map((task) => (
-          <TaskItem key={task.id} task={task} />
+          <TaskItem key={task._id || task.id} task={task} />
         ))
       )}
     </div>

@@ -1,13 +1,22 @@
 import { Outlet } from 'react-router-dom';
+import { useContext, useEffect } from 'react'; 
+import TasksContext from '../../TasksContext'; 
 import Header from '../../components/Header/Header';
 import Main from '../../components/Main/Main';
 
-function CardPage({ cards, setAuth }) {
+function CardPage() {
+  const { tasks, fetchTasks } = useContext(TasksContext) || { tasks: [] };
+
+  useEffect(() => {
+    if (typeof fetchTasks === 'function') {
+      fetchTasks();
+    }
+  }, [fetchTasks]);
+
   return (
     <>
-      <Header setAuth={setAuth} />
-      <Main cards={cards} />
-      
+      <Header />
+      <Main cards={tasks} />
       <Outlet />
     </>
   );

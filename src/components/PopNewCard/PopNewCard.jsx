@@ -1,17 +1,20 @@
-import { useState, useContext } from 'react'; // ДОБАВИЛИ: useContext
+import { useState, useContext } from 'react';
 import Calendar from '../Calendar/Calendar'; 
-import ThemeContext from '../../ThemeContext'; // ДОБАВИЛИ: Импорт вашего контекста темы
+import ThemeContext from '../../ThemeContext'; 
+import TasksContext from '../../TasksContext'; 
 
-function PopNewCard({ onAddTask, onClose }) {
+function PopNewCard({ onClose }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Web Design');
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  
+  const [selectedDate, setSelectedDate] = useState(null);
 
-  // ДОБАВИЛИ: Чтение темы из вашего рабочего контекста
   const context = useContext(ThemeContext);
   const theme = context?.theme || 'light';
   const isDark = theme === 'dark';
+
+  const { addTask } = useContext(TasksContext) || {};
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,16 +24,25 @@ function PopNewCard({ onAddTask, onClose }) {
       return;
     }
 
+    let finalDate = selectedDate;
+    if (!finalDate) {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      finalDate = `${year}-${month}-${day}`;
+    }
+
     const taskData = {
       title: title.trim(),
       topic: selectedCategory, 
       status: 'Без статуса', 
       description: description.trim(),
-      date: selectedDate ? selectedDate.toISOString() : new Date().toISOString()
+      date: finalDate 
     };
 
-    if (typeof onAddTask === 'function') {
-      onAddTask(taskData); 
+    if (typeof addTask === 'function') {
+      addTask(taskData); 
     }
     
     if (typeof onClose === 'function') {
@@ -43,98 +55,35 @@ function PopNewCard({ onAddTask, onClose }) {
       <div className="pop-new-card__container">
         <div className="pop-new-card__block">
           <div className="pop-new-card__content">
-            
             <h3 className="pop-new-card__ttl">Создание задачи</h3>
-            
-            <a 
-              href="#" 
-              className="pop-new-card__close" 
-              onClick={(e) => { e.preventDefault(); onClose(); }}
-            >
-              ✖
-            </a>
-            
+            <a href="#" className="pop-new-card__close" onClick={(e) => { e.preventDefault(); onClose(); }}>✖</a>
             <div className="pop-new-card__wrap">
               <form className="pop-new-card__form form-new" id="formNewCard" onSubmit={handleSubmit}>
                 <div className="form-new__block" style={{ marginBottom: '24px' }}>
                   <label htmlFor="formTitle" className="subttl">Название задачи</label>
-                  <input 
-                    className="form-new__input" 
-                    type="text" 
-                    name="name" 
-                    id="formTitle" 
-                    placeholder="Введите название задачи..." 
-                    autoFocus 
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
+                  <input className="form-new__input" type="text" name="name" id="formTitle" placeholder="Введите название задачи..." autoFocus value={title} onChange={(e) => setTitle(e.target.value)} />
                 </div>
                 <div className="form-new__block">
                   <label htmlFor="textArea" className="subttl" style={{ display: 'block', marginBottom: '4px' }}>Описание задачи</label>
-                  <textarea 
-                    className="form-new__area" 
-                    name="text" 
-                    id="textArea" 
-                    placeholder="Введите описание задачи..."
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  ></textarea>
+                  <textarea className="form-new__area" name="text" id="textArea" placeholder="Введите описание задачи..." value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
                 </div>
               </form>
               
               <Calendar selected={selectedDate} setSelected={setSelectedDate} />
             </div> 
-
             <div className="pop-new-card__categories categories">
               <p className="categories__p subttl">Категория</p>
               <div className="categories__themes">
-                <div 
-                  className={`categories__theme _orange ${selectedCategory === 'Web Design' ? '_active-category' : ''}`}
-                  onClick={() => setSelectedCategory('Web Design')}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <p className="_orange">Web Design</p>
-                </div>
-                <div 
-                  className={`categories__theme _green ${selectedCategory === 'Research' ? '_active-category' : ''}`}
-                  onClick={() => setSelectedCategory('Research')}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <p className="_green">Research</p>
-                </div>
-                <div 
-                  className={`categories__theme _purple ${selectedCategory === 'Copywriting' ? '_active-category' : ''}`}
-                  onClick={() => setSelectedCategory('Copywriting')}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <p className="_purple">Copywriting</p>
-                </div>
+                <div className={`categories__theme _orange ${selectedCategory === 'Web Design' ? '_active-category' : ''}`} onClick={() => setSelectedCategory('Web Design')} style={{ cursor: 'pointer' }}><p className="_orange">Web Design</p></div>
+                <div className={`categories__theme _green ${selectedCategory === 'Research' ? '_active-category' : ''}`} onClick={() => setSelectedCategory('Research')} style={{ cursor: 'pointer' }}><p className="_green">Research</p></div>
+                <div className={`categories__theme _purple ${selectedCategory === 'Copywriting' ? '_active-category' : ''}`} onClick={() => setSelectedCategory('Copywriting')} style={{ cursor: 'pointer' }}><p className="_purple">Copywriting</p></div>
               </div>
             </div>
-
-            <button 
-              type="submit"
-              form="formNewCard"
-              className="header__btn-main-new _hover01" 
-              id="btnCreateTask" 
-              style={{ marginLeft: '438px', width: '132px', fontSize: '14px', fontWeight: '500' }}
-            >
-              Создать задачу
-            </button>
-
+            <button type="submit" form="formNewCard" className="header__btn-main-new _hover01" id="btnCreateTask" style={{ marginLeft: '438px', width: '132px', fontSize: '14px', fontWeight: '500' }}>Создать задачу</button>
           </div>
         </div>
       </div>
-
-      {/* НАШ ОДОБРЕННЫЙ ТРИГГЕР: Невидимая картинка, которая 
-          активирует все стили карточки из App.css на любом роуте! */}
-      {isDark && (
-        <img 
-          src="images/logo_dark.png" 
-          alt="theme-trigger" 
-          style={{ display: 'none' }} 
-        />
-      )}
+      {isDark && <img src="images/logo_dark.png" alt="theme-trigger" style={{ display: 'none' }} />}
     </div>
   );
 }

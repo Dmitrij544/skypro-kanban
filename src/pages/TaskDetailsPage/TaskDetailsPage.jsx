@@ -1,11 +1,15 @@
 import { useParams, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import TasksContext from '../../TasksContext'; 
 import PopBrowse from '../../components/PopBrowse/PopBrowse';
 
-function TaskDetailsPage({ cards, onSave, onDelete }) {
+function TaskDetailsPage() {
   const { id } = useParams(); 
   const navigate = useNavigate();
 
-  const currentTask = cards.find((task) => task.id === Number(id));
+  const { tasks, toggleTask, deleteTask } = useContext(TasksContext) || { tasks: [] };
+
+  const currentTask = tasks.find((task) => String(task._id || task.id) === String(id));
 
   const handleClose = () => {
     navigate('/'); 
@@ -19,8 +23,8 @@ function TaskDetailsPage({ cards, onSave, onDelete }) {
     <PopBrowse 
       task={currentTask} 
       onClose={handleClose} 
-      onSave={onSave} 
-      onDelete={onDelete} 
+      onSave={toggleTask} 
+      onDelete={deleteTask} 
     />
   );
 }

@@ -1,11 +1,9 @@
-import { useState, useContext } from 'react';
+import { useState, useContext } from 'react'; 
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import authService from '../../../servieces/auth'; 
 import AuthContext from '../../AuthContext';
 
-const LOGIN_API_URL = "https://wedev-api.sky.pro/api/user/login";
-
-function LoginPage({ setAuth }) { 
+function LoginPage() { 
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
   
@@ -27,37 +25,32 @@ function LoginPage({ setAuth }) {
         name: 'Анна',
         id: 1,
         email: 'anna@example.com',
-        token: 'fake-test-token' 
+        token: 'fake-test-token'
       };
-
       localStorage.setItem("userInfo", JSON.stringify(testUser));
       if (typeof login === 'function') login(testUser);
-      if (typeof setAuth === 'function') setAuth(true);
-      
       setIsSubmitting(false);
       navigate('/');
       return; 
     }
 
     try {
-      const response = await axios.post(LOGIN_API_URL, {
+      if (!authService || typeof authService.signIn !== 'function') {
+        throw new Error('Сервис авторизации недоступен. Проверьте импорты файла auth.js');
+      }
+
+      const userResponseData = await authService.signIn({
         login: trimmedEmail,
         password: trimmedPassword
-      }, {
-        headers: { "Content-Type": "application/json" }
       });
-
-      const userResponseData = response.data.user;
 
       if (userResponseData) {
         localStorage.setItem("userInfo", JSON.stringify(userResponseData));
         if (typeof login === 'function') login(userResponseData);
-        if (typeof setAuth === 'function') setAuth(true);
         navigate('/');
       }
     } catch (err) {
-      const serverError = err?.response?.data?.error || err?.message || 'Неверный email или пароль';
-      setError(String(serverError));
+      setError(String(err));
     } finally {
       setIsSubmitting(false);
     }
@@ -67,13 +60,10 @@ function LoginPage({ setAuth }) {
     <div className="container-signin">
       <div className="modal">
         <div className="modal__block">
-          
           <div className="modal__ttl">
             <h2>Вход</h2>
           </div>
-
           <form className="modal__form-login" id="formLogIn" onSubmit={handleSubmit}>
-            
             <input 
               className="modal__input" 
               type="text" 
@@ -84,7 +74,6 @@ function LoginPage({ setAuth }) {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            
             <input 
               className="modal__input" 
               type="password" 
@@ -95,30 +84,29 @@ function LoginPage({ setAuth }) {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            
             {error && (
               <p style={{ color: "#f5222d", fontSize: '14px', margin: "0 0 10px 0", textAlign: "center" }}>
                 {error}
               </p>
             )}
-            
-            <button 
-              type="submit" 
-              className="modal__btn-enter _hover01" 
-              disabled={isSubmitting}
-            >
+            <button type="submit" className="modal__btn-enter _hover01" disabled={isSubmitting}>
               {isSubmitting ? "Вход..." : "Войти"}
             </button>
-            
             <div className="modal__form-group">
               <p>Нужно зарегистрироваться?</p>
               <Link to="/register">Регистрируйтесь здесь</Link>
             </div>
-
           </form>
-
         </div>
       </div>
+
+      {localStorage.getItem("appTheme") === 'dark' && (
+        <img 
+          src="images/logo_dark.png" 
+          alt="theme-trigger" 
+          style={{ display: 'none' }} 
+        />
+      )}
     </div>
   );
 }

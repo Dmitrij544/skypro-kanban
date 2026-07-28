@@ -15,7 +15,6 @@ export const HeaderContainer = styled.header`
   border-bottom: 1px solid #eaeaea;
   transition: background-color 0.2s ease, border-color 0.2s ease;
 
-  /* Наш победный метод: перекрашиваем контейнер шапки */
   html:has(img[src*="logo_dark"]) & {
     background-color: #20202C;
     border-bottom: 1px solid #4E5566;
@@ -107,7 +106,6 @@ export const HeaderUser = styled.button`
     }
   }
 
-  /* Наш победный метод: кнопка "Ivan Ivanov" и стрелочка становятся белыми */
   html:has(img[src*="logo_dark"]) & {
     color: #FFFFFF;
     
@@ -139,7 +137,6 @@ export const PopUserSet = styled.div`
   z-index: 10;
   transition: background-color 0.2s ease, border-color 0.2s ease;
 
-  /* Наш победный метод: само табло становится благородным серым */
   html:has(img[src*="logo_dark"]) & {
     background-color: #20202C;
     border: 0.7px solid #4E5566;
@@ -154,7 +151,6 @@ export const PopUserSetName = styled.p`
   margin-bottom: 4px;
   transition: color 0.2s ease;
 
-  /* Наш победный метод: имя пользователя внутри табло становится белым */
   html:has(img[src*="logo_dark"]) & {
     color: #FFFFFF;
   }
@@ -177,7 +173,6 @@ export const PopUserSetTheme = styled.div`
     font-size: 14px;
     transition: color 0.2s ease;
 
-    /* Наш победный метод: текст "Темная тема" становится белым */
     html:has(img[src*="logo_dark"]) & {
       color: #FFFFFF;
     }
@@ -211,49 +206,62 @@ export const Checkbox = styled.input`
     background-color: #565EEF;
   }
 
-  /* Наш победный метод: меняем подложку выключенного тумблера для темного режима */
   html:has(img[src*="logo_dark"]) & {
     background: #4E5566;
   }
 `;
 
 export const PopUserBtn = styled(BaseButton)`
-  width: 100%;
+  width: 72px;
   height: 30px;
   background: transparent;
   color: #565EEF;
   border-radius: 4px;
   border: 1px solid #565EEF;
+  padding: 0;
+
+  display: flex !important;
+  margin: 20px auto 0 auto !important; 
+  align-items: center;
+  justify-content: center;
 
   a {
     color: #565EEF;
     text-decoration: none;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
-    line-height: 28px;
     transition: color 0.2s ease;
   }
 
   &:hover {
-    background-color: #565EEF; 
-    color: #FFFFFF;
-    a { color: #FFFFFF; }
+    background-color: #565EEF !important; 
+    border-color: #565EEF !important;
+    
+    a { 
+      color: #FFFFFF !important; 
+    }
   }
 
-  /* Наш победный метод: кнопка "Выйти" получает белую рамку и белые буквы */
+  /* ТЁМНАЯ ТЕМА */
   html:has(img[src*="logo_dark"]) & {
     border: 1px solid #FFFFFF;
     color: #FFFFFF;
+    background: transparent;
     
     a {
       color: #FFFFFF;
     }
 
     &:hover {
-      background-color: #FFFFFF;
-      color: #20202C;
-      a { color: #20202C; }
+      background-color: #565EEF !important;
+      border-color: #565EEF !important;
+      
+      a { 
+        color: #FFFFFF !important; 
+      }
     }
   }
 `;

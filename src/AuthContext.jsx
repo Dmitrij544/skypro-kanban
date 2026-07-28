@@ -12,7 +12,9 @@ export function AuthProvider({ children }) {
 
   const logout = useCallback(() => {
     setUser(null);
-    localStorage.clear();
+    localStorage.removeItem("userInfo");
+    
+    window.location.href = '/login';
   }, []);
 
   return (
