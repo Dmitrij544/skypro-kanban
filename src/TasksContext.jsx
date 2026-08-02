@@ -19,7 +19,7 @@ export function TasksProvider({ children }) {
     } catch (error) {
       console.error("Ошибка загрузки задач:", error);
     }
-  };
+  }; 
 
   const addTask = async (taskData) => {
     if (!user?.token) return;

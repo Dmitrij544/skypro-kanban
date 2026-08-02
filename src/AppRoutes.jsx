@@ -1,4 +1,4 @@
-import { useContext } from 'react'; // ДОБАВИЛИ: useContext
+import { useContext } from 'react'; 
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import CardPage from './pages/CardPage/CardPage'; 
 import LoginPage from './pages/LoginPage/LoginPage';
@@ -7,8 +7,8 @@ import ExitPage from './pages/ExitPage/ExitPage';
 import PopNewCard from './components/PopNewCard/PopNewCard'; 
 import NotFoundPage from './pages/NotFound/NotFound';
 import PopBrowse from './components/PopBrowse/PopBrowse'; 
-import ThemeContext from './ThemeContext'; 
 import PopEdit from './components/PopBrowse/PopEdit';
+import ThemeContext from './ThemeContext'; 
 
 function RequireAuth({ isAuth, children }) {
   return isAuth ? children : <Navigate to="/login" replace />;
@@ -23,21 +23,13 @@ function AppRoutes({ isAuth }) {
     <Routes>
       <Route path="/login" element={<LoginPage theme={theme} />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/" element={<RequireAuth isAuth={isAuth}><CardPage /></RequireAuth>} />
-      <Route path="/exit" element={<RequireAuth isAuth={isAuth}><ExitPage /></RequireAuth>} />
       
-      <Route 
-        path="/new-card" 
-        element={
-          <RequireAuth isAuth={isAuth}>
-            <PopNewCard onClose={() => navigate('/')} />
-          </RequireAuth>
-        } 
-      />
-      
-      <Route path="/task/:id" element={<RequireAuth isAuth={isAuth}><PopBrowse /></RequireAuth>} />
-      
-      <Route path="/task/:id/edit" element={<RequireAuth isAuth={isAuth}><PopEdit /></RequireAuth>} />
+      <Route path="/" element={<RequireAuth isAuth={isAuth}><CardPage /></RequireAuth>}>
+        <Route path="exit" element={<ExitPage />} />
+        <Route path="new-card" element={<PopNewCard onClose={() => navigate('/')} />} />
+        <Route path="task/:id" element={<PopBrowse />} />
+        <Route path="task/:id/edit" element={<PopEdit />} />
+      </Route>
       
       <Route path="/404" element={<NotFoundPage />} />
       <Route path="*" element={<NotFoundPage />} />

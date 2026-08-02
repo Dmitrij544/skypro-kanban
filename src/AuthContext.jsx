@@ -3,7 +3,15 @@ import { createContext, useState, useCallback } from 'react';
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("userInfo");
+    try {
+      return savedUser ? JSON.parse(savedUser) : null;
+    } catch (e) {
+      console.error("Ошибка чтения профиля из памяти:", e);
+      return null;
+    }
+  });
 
   const login = useCallback((userData) => {
     setUser(userData);
@@ -12,9 +20,7 @@ export function AuthProvider({ children }) {
 
   const logout = useCallback(() => {
     setUser(null);
-    localStorage.removeItem("userInfo");
-    
-    window.location.href = '/login';
+    localStorage.removeItem("userInfo"); 
   }, []);
 
   return (

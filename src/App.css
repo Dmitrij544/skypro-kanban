@@ -2700,3 +2700,41 @@ body:has(img[src*="logo_dark"]) .subttl {
     color: #FFFFFF !important; 
 }
 
+.header,
+[class*="HeaderContainer"] {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.main,
+.main__block {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.pop-exit,
+.pop-new-card,
+.pop-browse {
+    background: transparent !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 99999 !important;
+}
+
+.pop-exit__container,
+.pop-new-card__container,
+.pop-browse__container {
+    background: rgba(0, 0, 0, 0.5) !important; 
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+}
+
+body:has(img[src*="logo_dark"]) .pop-exit__container,
+body:has(img[src*="logo_dark"]) .pop-new-card__container,
+body:has(img[src*="logo_dark"]) .pop-browse__container {
+    background: rgba(0, 0, 0, 0.75) !important;
+}
