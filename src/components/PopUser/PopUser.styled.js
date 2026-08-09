@@ -52,7 +52,6 @@ export const PopExitContainer = styled.div`
   justify-content: center;
   background: rgba(0, 0, 0, 0.4);
 
-  /* Глубокое темное затемнение вокруг таблички */
   html:has(img[src*="logo_dark"]) & {
     background: rgba(0, 0, 0, 0.7);
   }
@@ -70,7 +69,6 @@ export const PopExitBlock = styled.div`
   box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
   transition: background-color 0.2s ease, border-color 0.2s ease;
 
-  /* Фон самой таблички становится серым */
   html:has(img[src*="logo_dark"]) & {
     background-color: #2B2A32;
     border: 0.7px solid #4E5566;
@@ -88,7 +86,6 @@ export const PopExitTtl = styled.div`
     color: #000000;
     transition: color 0.2s ease;
 
-    /* Текст вопроса становится белым */
     html:has(img[src*="logo_dark"]) & {
       color: #FFFFFF;
     }
@@ -136,8 +133,6 @@ export const ExitNoBtn = styled(BaseButton)`
     a { color: #FFFFFF; }
   }
 
-  /* ИСПРАВЛЕНО: Фон кнопки остается серым (прозрачным на серой плашке), 
-     а контур (border) и буквы внутри (color) становятся чисто БЕЛЫМИ! */
   html:has(img[src*="logo_dark"]) & {
     background-color: transparent;
     border: 0.7px solid #FFFFFF;
@@ -148,9 +143,13 @@ export const ExitNoBtn = styled(BaseButton)`
     }
 
     &:hover {
-      background-color: #FFFFFF;
-      color: #2B2A32;
-      a { color: #2B2A32; }
+      background-color: #565EEF !important;
+      border-color: #565EEF !important;
+      color: #FFFFFF !important;
+      
+      a { 
+        color: #FFFFFF !important; 
+      }
     }
   }
 `;

@@ -86,7 +86,7 @@ export default function PopBrowse() {
 
   const rawDateStr = task.date ? new Date(task.date).toLocaleDateString('ru-RU') : 'Срок не указан';
   
-  const displayDate = rawDateStr.replace('.2026', '.26').replace('.2023', '.23');
+  const displayDate = rawDateStr.replace('.2026', '.26').replace('.2023', '.23') + '.';
 
   return (
     <div className="pop-browse" id="popBrowse" style={{ display: 'block' }}>

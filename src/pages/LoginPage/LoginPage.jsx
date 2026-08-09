@@ -20,20 +20,6 @@ function LoginPage() {
     const trimmedEmail = email.trim();
     const trimmedPassword = password.trim();
 
-    if (trimmedEmail === 'anna@example.com' && trimmedPassword === '123456') {
-      const testUser = {
-        name: 'Анна',
-        id: 1,
-        email: 'anna@example.com',
-        token: 'fake-test-token'
-      };
-      localStorage.setItem("userInfo", JSON.stringify(testUser));
-      if (typeof login === 'function') login(testUser);
-      setIsSubmitting(false);
-      navigate('/');
-      return; 
-    }
-
     try {
       if (!authService || typeof authService.signIn !== 'function') {
         throw new Error('Сервис авторизации недоступен. Проверьте импорты файла auth.js');
@@ -50,7 +36,24 @@ function LoginPage() {
         navigate('/');
       }
     } catch (err) {
-      setError(String(err));
+      console.error("=== ОШИБКА АВТОРИЗАЦИИ ===");
+      
+      const errorString = String(err.message || err).toLowerCase();
+
+      if (
+        errorString.includes("логин") || 
+        errorString.includes("пароль") || 
+        errorString.includes("400") || 
+        errorString.includes("401") ||
+        errorString.includes("failed")
+      ) {
+        
+        setError("Введенные вами данные не распознаны. Проверьте свой логин и пароль и повторите попытку входа.");
+        
+      } else {
+        setError("Не удалось связаться с сервером. Пожалуйста, попробуйте позже.");
+      }
+
     } finally {
       setIsSubmitting(false);
     }

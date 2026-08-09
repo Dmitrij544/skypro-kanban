@@ -19,8 +19,8 @@ function PopNewCard({ onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (!title.trim()) {
-      alert('Пожалуйста, введите название задачи');
+    if (!title.trim() || !description.trim()) {
+      alert('Пожалуйста, заполните все поля! Название и описание не могут быть пустыми или состоять только из пробелов.');
       return;
     }
 
