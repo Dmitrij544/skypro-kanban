@@ -1,12 +1,20 @@
+import { useContext } from 'react'; 
 import { Link } from 'react-router-dom'; 
+import ThemeContext from '../../ThemeContext'; 
 import * as S from './Card.styled';
 
 function Card({ _id, id, title, category, categoryClass, date, $isDone }) {
   const taskId = _id || id;
 
-  const displayDate = date && date.includes('T') 
+  const context = useContext(ThemeContext);
+  const theme = context?.theme || 'light';
+  const isDark = theme === 'dark';
+
+  const rawDateStr = date && date.includes('T') 
     ? new Date(date).toLocaleDateString('ru-RU') 
     : (date || 'Срок не указан');
+
+  const displayDate = rawDateStr.replace('.2026', '.26').replace('.2023', '.23');
 
   return (
     <S.CardsItem>
@@ -37,6 +45,14 @@ function Card({ _id, id, title, category, categoryClass, date, $isDone }) {
           </S.CardContent>
         </S.CardContainer>
       </Link>
+
+      {isDark && (
+        <img 
+          src="images/logo_dark.png" 
+          alt="theme-trigger" 
+          style={{ display: 'none' }} 
+        />
+      )}
     </S.CardsItem>
   );
 }

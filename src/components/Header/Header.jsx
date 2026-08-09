@@ -1,15 +1,22 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import ThemeContext from '../../ThemeContext';
+import AuthContext from '../../AuthContext'; 
 import * as S from './Header.styled';
 
-function Header() { 
+export function Header() { 
   const [isUserSetOpen, setIsUserSetOpen] = useState(false);
 
-  const toggleUserSet = (e) => {
-    e.preventDefault(); 
-    e.stopPropagation(); 
-    setIsUserSetOpen(!isUserSetOpen); 
-  };
+  const themeContext = useContext(ThemeContext);
+  const theme = themeContext?.theme || 'light';
+  const toggleTheme = themeContext?.toggleTheme || (() => {});
+  const isDark = theme === 'dark';
+
+  const auth = useContext(AuthContext);
+  const user = auth?.user || null;
+
+  const userName = user?.name || "Ivan Ivanov";
+  const userEmail = user?.email || "ivan.ivanov@gmail.com";
 
   return (
     <S.HeaderContainer>
@@ -17,41 +24,37 @@ function Header() {
         <S.HeaderBlock>
           
           <S.HeaderLogo>
-            <Link to="/"><img src="images/logo.png" alt="logo" /></Link>
-          </S.HeaderLogo>
-          <S.HeaderLogo $dark>
-            <Link to="/"><img src="images/logo_dark.png" alt="logo" /></Link>
+            <Link to="/">
+              <img src={isDark ? "images/logo_dark.png" : "images/logo.png"} alt="logo" />
+            </Link>
           </S.HeaderLogo>
           
           <S.HeaderNav>
             <S.BtnMainNew id="btnMainNew">
-              <Link to="/new-card" style={{ color: '#ffffff', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                Создать новую задачу
-              </Link>
+              <Link to="/new-card">Создать новую задачу</Link>
             </S.BtnMainNew>
             
-            <S.HeaderUser 
-              as="button"
-              type="button"
-              onClick={toggleUserSet}
-              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-            >
-              Ivan Ivanov
+            {/* ИСПРАВЛЕНО: Шапка приветствует пользователя по имени (например, Анна) */}
+            <S.HeaderUser type="button" onClick={() => setIsUserSetOpen(!isUserSetOpen)}>
+              {user ? `Привет, ${userName}!` : userName}
             </S.HeaderUser>
             
             {isUserSetOpen && (
-              <S.PopUserSet id="user-set-target">
-                <S.PopUserSetName>Ivan Ivanov</S.PopUserSetName>
-                <S.PopUserSetMail>ivan.ivanov@gmail.com</S.PopUserSetMail>
+              <S.PopUserSet>
+                <S.PopUserSetName>{userName}</S.PopUserSetName>
+                <S.PopUserSetMail>{userEmail}</S.PopUserSetMail>
                 <S.PopUserSetTheme>
                   <p>Темная тема</p>
-                  <S.Checkbox name="checkbox" />
+                  <S.Checkbox 
+                    type="checkbox"
+                    id="user-menu-theme-checkbox"
+                    checked={isDark} 
+                    onChange={() => toggleTheme()}
+                  />  
                 </S.PopUserSetTheme>
                 
                 <S.PopUserBtn onClick={() => setIsUserSetOpen(false)}>
-                  <Link to="/exit" style={{ color: 'inherit', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    Выйти
-                  </Link>
+                  <Link to="/exit">Выйти</Link>
                 </S.PopUserBtn>
               </S.PopUserSet>
             )}

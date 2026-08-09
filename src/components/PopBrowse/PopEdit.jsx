@@ -1,15 +1,21 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import TasksContext from '../../TasksContext'; 
+import ThemeContext from '../../ThemeContext'; 
 
-export default function PopEdit({ cards, onSaveTask, onDeleteTask }) {
+export default function PopEdit() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const task = cards?.find((t) => String(t._id || t.id) === String(id));
+  const { tasks, editTask, deleteTask } = useContext(TasksContext) || { tasks: [] };
+  const context = useContext(ThemeContext);
+  
+  const task = tasks?.find((t) => String(t._id || t.id) === String(id));
 
   const [currentStatus, setCurrentStatus] = useState(task?.status || 'Без статуса');
-  const [description, setDescription] = useState(task?.description || '');
-
+  
+  const [description, setDescription] = useState(() => task?.description || '');
+  
   const daysData = [
     { id: 1, day: '29', type: '_other-month', fullDate: '2023-08-29T00:00:00.000Z', dayStr: '29' },
     { id: 2, day: '30', type: '_other-month', fullDate: '2023-08-30T00:00:00.000Z', dayStr: '30' },
@@ -51,7 +57,7 @@ export default function PopEdit({ cards, onSaveTask, onDeleteTask }) {
     ? task.date.split('-')[2].substring(0, 2) 
     : '30';
 
-  const [selectedDay, setSelectedDay] = useState(
+  const [selectedDay, setSelectedDay] = useState(() => 
     daysData.find(d => d.dayStr === initialDayNumber && d.type !== '_other-month') || null
   );
 
@@ -67,26 +73,43 @@ export default function PopEdit({ cards, onSaveTask, onDeleteTask }) {
 
   const handleClose = (e) => {
     if (e) e.preventDefault();
-    navigate(`/task/${task._id || id}`); 
-  };
-
-  const handleSaveChanges = (e) => {
-    e.preventDefault();
-    if (typeof onSaveTask === 'function') {
-      onSaveTask({
-        ...task,
-        status: currentStatus,
-        description: description,
-        date: selectedDay ? selectedDay.fullDate : task.date
-      });
-    }
     navigate('/'); 
   };
 
-  const handleDelete = (e) => {
+  const handleCancel = (e) => {
+    if (e) e.preventDefault();
+    navigate(`/task/${task._id || id}`);
+  };
+
+  const handleSaveChanges = async (e) => {
     e.preventDefault();
-    if (typeof onDeleteTask === 'function') {
-      onDeleteTask(task._id || id);
+
+    let finalDateString = task.date;
+    if (selectedDay?.fullDate) {
+      const dateObj = new Date(selectedDay.fullDate);
+      const year = dateObj.getFullYear();
+      const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const day = String(dateObj.getDate()).padStart(2, '0');
+      finalDateString = `${year}-${month}-${day}`;
+    }
+
+    if (typeof editTask === 'function') {
+      await editTask(task._id || id, {
+        title: task.title,
+        topic: task.topic,
+        status: currentStatus,
+        description: description.trim(),
+        date: finalDateString
+      });
+    }
+
+    navigate('/'); 
+  };
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    if (typeof deleteTask === 'function') {
+      await deleteTask(task._id || id);
     }
     navigate('/'); 
   };
@@ -96,9 +119,11 @@ export default function PopEdit({ cards, onSaveTask, onDeleteTask }) {
     currentTopic === 'Web Design' || currentTopic === 'Web Dev' ? '_orange' : 
     currentTopic === 'Research' ? '_green' : '_purple';
 
-  const displayDate = selectedDay 
+  const rawDateStr = selectedDay 
     ? new Date(selectedDay.fullDate).toLocaleDateString('ru-RU') 
     : (task.date ? new Date(task.date).toLocaleDateString('ru-RU') : 'Срок не указан');
+
+  const displayDate = rawDateStr.replace('.2026', '.26').replace('.2023', '.23');
 
   return (
     <div className="pop-browse" id="popBrowse" style={{ display: 'block' }}>
@@ -122,7 +147,7 @@ export default function PopEdit({ cards, onSaveTask, onDeleteTask }) {
                     <div
                       key={status.name}
                       onClick={() => setCurrentStatus(status.name)}
-                      className={`status__theme ${isActive ? '_active-status _gray' : ''}`}
+                      className={`status__theme ${isActive ? '_active-status' : ''}`}
                       style={{ cursor: 'pointer' }}
                     >
                       <p>{status.name}</p>
@@ -139,7 +164,7 @@ export default function PopEdit({ cards, onSaveTask, onDeleteTask }) {
                     <p className="form-edit__subttl">Описание задачи</p>
                     <textarea 
                       className="form-edit__area" 
-                      value={description || ""} 
+                      value={description} 
                       onChange={(e) => setDescription(e.target.value)} 
                       placeholder="Введите описание задачи..."
                     />
@@ -165,11 +190,11 @@ export default function PopEdit({ cards, onSaveTask, onDeleteTask }) {
                     </div>
                     <div className="calendar-edit__cells">
                       {daysData.map((item) => {
-                        const isSelected = selectedDay?.id === item.id;
+                        const isSelected = selectedDay?.fullDate === item.fullDate;
                         return (
                           <div
                             key={item.id}
-                            className={`calendar-edit__cell ${item.type} ${isSelected ? '_active-day-edit' : ''}`}
+                            className={`calendar__cell ${item.type} ${isSelected ? '_active-day' : '_cell-day'}`}
                             onClick={() => setSelectedDay(item)}
                             style={{ cursor: 'pointer' }}
                           >
@@ -181,7 +206,7 @@ export default function PopEdit({ cards, onSaveTask, onDeleteTask }) {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> 
 
             <input type="hidden" id="datepick_value" value={selectedDay ? selectedDay.fullDate : (task.date || '')} />
             <div className="calendar__period" style={{ marginBottom: '20px' }}>
@@ -196,27 +221,33 @@ export default function PopEdit({ cards, onSaveTask, onDeleteTask }) {
                 <p className={categoryColorClass}>{currentTopic}</p>
               </div>
             </div>
-
             <div className="pop-browse__btn-edit">
               <div className="btn-group">
                 <button type="button" onClick={handleSaveChanges} className="btn-edit__edit _btn-bg _hover01">
-                  <a href="#" onClick={(e) => e.preventDefault()}>Сохранить</a>
+                  Сохранить
                 </button>
-                <button type="button" onClick={handleClose} className="btn-edit__edit _btn-bor _hover03">
-                  <a href="#" onClick={(e) => e.preventDefault()}>Отменить</a>
+                <button type="button" onClick={handleCancel} className="btn-edit__edit _btn-bor _hover03">
+                  Отменить
                 </button>
                 <button type="button" onClick={handleDelete} className="btn-edit__delete _btn-bor _hover03" id="btnDelete">
-                  <a href="#" onClick={(e) => e.preventDefault()}>Удалить задачу</a>
+                  Удалить задачу
                 </button>
               </div>
               <button type="button" onClick={handleClose} className="btn-edit__close _btn-bg _hover01">
-                <a href="#" onClick={(e) => e.preventDefault()}>Закрыть</a>
+                Закрыть
               </button>
             </div>
 
           </div>
         </div>
       </div>
+      {context?.theme === 'dark' && (
+        <img 
+          src="images/logo_dark.png" 
+          alt="theme-trigger" 
+          style={{ display: 'none' }} 
+        />
+      )}
     </div>
   );
 }

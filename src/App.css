@@ -1,3 +1,28 @@
+:root {
+    --bg-main: #FFFFFF;
+    --bg-card: #FFFFFF;
+    --text-main: #000000;
+    --border-main: rgba(148, 166, 190, 0.4);
+}
+
+html:has(img[src*="logo_dark"]),
+body._dark {
+    --bg-main: #151419;
+    --bg-card: #20202C;
+    --text-main: #FFFFFF;
+    --border-main: #4E5566;
+}
+
+body:has(._dark), 
+html:has(._dark) {
+    background-color: #151419; 
+}
+
+.wrapper._dark {
+    min-height: 100vh;
+    background-color: #151419; 
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -446,6 +471,7 @@ body {
     align-items: center;
     justify-content: space-between;
 }
+
 .nav__action {
     width: 18px;
     height: 25px;
@@ -1114,6 +1140,40 @@ body {
   background-color: #33399b;
 }
 
+.pop-browse__btn-browse .btn-group {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 8px !important; 
+}
+
+.pop-browse__btn-edit,
+.pop-browse__btn-browse button,
+.pop-browse__btn-edit button,
+.btn-edit__edit,
+.btn-edit__delete {
+    height: 30px !important;
+    padding: 0 14px !important; 
+    
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+    box-sizing: border-box !important;
+    cursor: pointer !important;
+}
+
+.pop-browse__btn-browse button a,
+.pop-browse__btn-edit button a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
 @media screen and (max-width: 1200px) {
     .main__block {
         width: 100%;
@@ -1274,6 +1334,8 @@ body {
         height: 37px;
     }
 }
+
+
 @media only screen and (max-width: 375px) {
     .pop-exit__block {
         padding: 50px 20px;
@@ -1327,4 +1389,1352 @@ body {
   .modal__btn-signup-ent {
     height: 40px;
   }
+}
+
+body:has(img[src*="logo_dark"]) {
+    background-color: #151419 !important;
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) header,
+body:has(img[src*="logo_dark"]) [class*="HeaderContainer"] {
+    background-color: #20202C !important;
+    border-bottom: 1px solid #4E5566 !important;
+}
+
+body:has(img[src*="logo_dark"]) [class*="HeaderUser"] {
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) [class*="HeaderUser"]::after {
+    border-left-color: #FFFFFF !important;
+    border-bottom-color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) .pop-user-set,
+body:has(img[src*="logo_dark"]) [class*="PopUserSet"] {
+    background-color: #20202C !important;
+    border: 0.7px solid #4E5566 !important;
+    box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.5) !important;
+}
+body:has(img[src*="logo_dark"]) .pop-user-set p,
+body:has(img[src*="logo_dark"]) [class*="PopUserSet"] p {
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) .task-list,
+body:has(img[src*="logo_dark"]) .task-item,
+body:has(img[src*="logo_dark"]) [class*="TaskList"],
+body:has(img[src*="logo_dark"]) [class*="TaskItem"] {
+    background-color: #2B2A32 !important;
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) aside,
+body:has(img[src*="images/logo_dark"]) [class*="Sidebar"] {
+    background-color: #1C1B22 !important;
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) h2,
+body:has(img[src*="logo_dark"]) .main__title {
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]),
+body._dark,
+._dark .container-signin {
+    background-color: #151419 !important;
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) ._hover01:hover,
+._dark ._hover01:hover {
+    background-color: #33399b !important;
+}
+
+body:has(img[src*="logo_dark"]) .modal__block,
+._dark .modal__block {
+    background-color: #20202C !important;
+    border: 0.7px solid #4E5566 !important;
+    box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.5) !important;
+}
+
+body:has(img[src*="logo_dark"]) .modal__ttl h2,
+._dark .modal__ttl h2 {
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) .modal__input,
+._dark .modal__input {
+    background-color: transparent !important;
+    border: 0.7px solid #4E5566 !important;
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) .modal__input::placeholder,
+._dark .modal__input::placeholder {
+    color: #94A6BE !important;
+}
+
+body:has(img[src*="logo_dark"]) .modal__btn-enter,
+._dark .modal__btn-enter {
+    background-color: #565EEF !important;
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) .modal__btn-enter a,
+._dark .modal__btn-enter a {
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) .modal__form-group p,
+body:has(img[src*="logo_dark"]) .modal__form-group a,
+._dark .modal__form-group p,
+._dark .modal__form-group a {
+    color: #94A6BE !important;
+}
+
+@media screen and (max-width: 375px) {
+    body:has(img[src*="logo_dark"]) .modal,
+    ._dark .modal {
+        background-color: #151419 !important;
+    }
+    body:has(img[src*="logo_dark"]) .modal__block,
+    ._dark .modal__block {
+        background-color: #151419 !important;
+        padding: 0 16px;
+    }
+}
+
+body:has(img[src*="logo_dark"]) {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background-color: #151419 !important;
+}
+
+body:has(img[src*="logo_dark"]) .container-signup {
+    display: block;
+    width: 100vw;
+    min-height: 100vh;
+    margin: 0 auto;
+}
+
+body:has(img[src*="logo_dark"]) ._hover01:hover {
+    background-color: #33399b !important;
+}
+
+body:has(img[src*="logo_dark"]) .modal {
+    width: 100%;
+    height: 100%;
+    min-width: 320px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+body:has(img[src*="logo_dark"]) .modal__block {
+    display: block;
+    margin: 0 auto;
+    background-color: #20202C !important;
+    max-width: 368px;
+    width: 100%;
+    padding: 50px 60px;
+    border-radius: 10px;
+    border: 0.7px solid #4E5566 !important;
+    box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.5) !important;
+}
+
+body:has(img[src*="logo_dark"]) .modal__ttl h2 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+    letter-spacing: -0.6px;
+    margin-bottom: 20px;
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) .modal__form-login {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+body:has(img[src*="logo_dark"]) .modal__form-login input:not(:last-child) {
+    margin-bottom: 7px;
+}
+body:has(img[src*="logo_dark"]) .modal__input {
+    width: 100%;
+    min-width: 100%;
+    border-radius: 8px;
+    background-color: transparent !important;
+    border: 0.7px solid #4E5566 !important;
+    outline: none;
+    padding: 10px 8px;
+    color: #FFFFFF !important; 
+}
+body:has(img[src*="logo_dark"]) .modal__input::-moz-placeholder {
+    color: #94A6BE !important;
+}
+body:has(img[src*="logo_dark"]) .modal__input::placeholder {
+    color: #94A6BE !important;
+}
+
+body:has(img[src*="logo_dark"]) .modal__btn-signup-ent {
+    width: 100%;
+    height: 30px;
+    background-color: #565EEF !important;
+    border-radius: 4px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 500;
+    letter-spacing: -0.14px;
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) .modal__btn-signup-ent a {
+    width: 100%;
+    height: 100%;
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) .modal__form-group {
+    text-align: center;
+}
+body:has(img[src*="logo_dark"]) .modal__form-group p,
+body:has(img[src*="logo_dark"]) .modal__form-group a {
+    color: #94A6BE !important;
+}
+body:has(img[src*="logo_dark"]) .modal__form-group a {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 375px) {
+    body:has(img[src*="logo_dark"]) .modal {
+        background-color: #151419 !important; 
+    }
+    body:has(img[src*="logo_dark"]) .modal__block {
+        max-width: 368px;
+        width: 100%;
+        padding: 0 16px;
+        border-radius: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        background-color: #151419 !important;
+    }
+    body:has(img[src*="logo_dark"]) .modal__btn-signup-ent {
+        height: 40px !important;
+    }
+}
+
+body:has(img[src*="logo_dark"]) {
+    max-width: 100%;
+    width: 100vw;
+    min-height: 100vh;
+    overflow: hidden;
+    background-color: #151419 !important;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+body:has(img[src*="logo_dark"]) .container {
+    max-width: 1260px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+body:has(img[src*="logo_dark"]) ._hover01:hover {
+    background-color: #33399b !important;
+}
+
+body:has(img[src*="logo_dark"]) ._hover02:hover, 
+body:has(img[src*="logo_dark"]) .header__user:hover {
+    color: #33399b !important;
+}
+body:has(img[src*="logo_dark"]) ._hover02:hover::after, 
+body:has(img[src*="logo_dark"]) .header__user:hover::after {
+    border-left-color: #33399b !important;
+    border-bottom-color: #33399b !important;
+}
+
+body:has(img[src*="logo_dark"]) ._hover03:hover {
+    background-color: #565EEF !important;
+    color: #FFFFFF !important;
+    border-color: #565EEF !important;
+}
+body:has(img[src*="logo_dark"]) ._hover03:hover a {
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) ._active-category:active {
+    opacity: 1 !important;
+}
+
+body:has(img[src*="logo_dark"]) .pop-user-set:target,
+body:has(img[src*="logo_dark"]) .pop-exit:target,
+body:has(img[src*="logo_dark"]) .pop-new-card:target,
+body:has(img[src*="logo_dark"]) .pop-browse:target {
+    display: block !important;
+}
+
+body:has(img[src*="logo_dark"]) ._orange {
+    background-color: #FF6D00 !important;
+    color: #FFE4C2 !important;
+}
+
+body:has(img[src*="logo_dark"]) ._green {
+    background-color: #06B16E !important;
+    color: #B4FDD1 !important;
+}
+
+body:has(img[src*="logo_dark"]) ._purple {
+    background-color: #9A48F1 !important;
+    color: #E9D4FF !important;
+}
+
+body:has(img[src*="logo_dark"]) ._gray {
+    background: #94A6BE !important;
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) .pop-exit {
+    display: none;
+    width: 100%;
+    height: 100%;
+    min-width: 320px;
+    min-height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+}
+body:has(img[src*="logo_dark"]) .pop-exit__container {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.8) !important;
+}
+body:has(img[src*="logo_dark"]) .pop-exit__block {
+    display: block;
+    margin: 0 auto;
+    background-color: #20202C !important;
+    max-width: 370px;
+    width: 100%;
+    padding: 50px 60px;
+    border-radius: 10px;
+    border: 0.7px solid #4E5566 !important;
+    box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13) !important;
+}
+body:has(img[src*="logo_dark"]) .pop-exit__ttl h2 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+    letter-spacing: -0.4px;
+    margin-bottom: 20px;
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) .pop-exit__exit-yes {
+    width: 153px;
+    height: 30px;
+    background-color: #565EEF !important;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 500;
+    letter-spacing: -0.14px;
+    color: #FFFFFF !important;
+    margin-right: 10px;
+}
+body:has(img[src*="logo_dark"]) .pop-exit__exit-yes a {
+    width: 100%;
+    height: 100%;
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) .pop-exit__exit-no {
+    width: 153px;
+    height: 30px;
+    background-color: transparent !important;
+    border-radius: 4px;
+    border: 0.7px solid #4E5566 !important;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 500;
+    letter-spacing: -0.14px;
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) .pop-exit__exit-no a {
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) .pop-exit__form-group {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+body:has(img[src*="logo_dark"]) .pop-user-set__name {
+    color: #FFFFFF !important;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+    letter-spacing: -0.14px;
+    margin-bottom: 4px;
+}
+body:has(img[src*="logo_dark"]) .pop-user-set__mail {
+    color: #94A6BE !important;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.14px;
+    margin-bottom: 10px;
+}
+body:has(img[src*="logo_dark"]) .pop-user-set__theme {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+body:has(img[src*="logo_dark"]) .pop-user-set__theme p {
+    color: #FFFFFF !important;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.14px;
+}
+body:has(img[src*="logo_dark"]) .pop-user-set button {
+    width: 72px;
+    height: 30px;
+    background: transparent !important;
+    color: #FFFFFF !important;
+    border-radius: 4px;
+    border: 1px solid #4E5566 !important;
+}
+body:has(img[src*="logo_dark"]) .pop-user-set button a {
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) .pop-new-card {
+    display: none;
+    width: 100%;
+    min-width: 375px;
+    height: 100%;
+    min-height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 6;
+}
+body:has(img[src*="logo_dark"]) .pop-new-card__container {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.8) !important;
+}
+body:has(img[src*="logo_dark"]) .pop-new-card__block {
+    display: block;
+    margin: 0 auto;
+    background-color: #20202C !important;
+    max-width: 630px;
+    width: 100%;
+    padding: 40px 30px 48px;
+    border-radius: 10px;
+    border: 0.7px solid #4E5566 !important;
+    position: relative;
+    box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13) !important;
+}
+body:has(img[src*="logo_dark"]) .pop-new-card__content {
+    display: block;
+    text-align: left;
+}
+body:has(img[src*="logo_dark"]) .pop-new-card__ttl {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    margin-bottom: 20px;
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) .pop-new-card__close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #94A6BE !important;
+    cursor: pointer;
+}
+body:has(img[src*="logo_dark"]) .pop-new-card__close:hover {
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) .pop-new-card__wrap {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+body:has(img[src*="logo_dark"]) .pop-new-card__form {
+    max-width: 370px;
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+}
+
+body:has(img[src*="logo_dark"]) .form-new__block {
+    display: flex;
+    flex-direction: column;
+}
+body:has(img[src*="logo_dark"]) .form-new__input, 
+body:has(img[src*="logo_dark"]) .form-new__area {
+    width: 100%;
+    outline: none;
+    padding: 14px;
+    background: transparent !important;
+    border: 0.7px solid #4E5566 !important;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: -0.14px;
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) .form-new__input::placeholder, 
+body:has(img[src*="logo_dark"]) .form-new__area::placeholder {
+    color: #94A6BE !important;
+}
+body:has(img[src*="logo_dark"]) .form-new__input {
+    margin: 20px 0;
+}
+body:has(img[src*="logo_dark"]) .form-new__area {
+    max-width: 370px;
+    margin-top: 14px;
+    height: 188px;
+}
+body:has(img[src*="logo_dark"]) .form-new__create {
+    width: 132px;
+    height: 30px;
+    background-color: #565EEF !important;
+    border-radius: 4px;
+    border: 0;
+    outline: none;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    color: #FFFFFF !important;
+    float: right;
+}
+
+body:has(img[src*="logo_dark"]) .subttl {
+    color: #FFFFFF !important;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+body:has(img[src*="logo_dark"]) .calendar {
+    width: 182px;
+    margin-bottom: 20px;
+}
+body:has(img[src*="logo_dark"]) .calendar__ttl {
+    margin-bottom: 14px;
+    padding: 0 7px;
+}
+body:has(img[src*="logo_dark"]) .calendar__p {
+    color: #94A6BE !important;
+    font-size: 10px;
+    line-height: 1;
+}
+body:has(img[src*="logo_dark"]) .calendar__p span {
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) .calendar .date-create {
+    margin-bottom: 7px;
+}
+body:has(img[src*="logo_dark"]) .calendar .date-end {
+    margin-bottom: 14px;
+}
+body:has(img[src*="logo_dark"]) .calendar__block {
+    display: block;
+}
+body:has(img[src*="logo_dark"]) .calendar__month {
+    color: #94A6BE !important;
+    font-size: 14px;
+    line-height: 25px;
+    font-weight: 600;
+}
+body:has(img[src*="logo_dark"]) .calendar__content {
+    margin-bottom: 12px;
+}
+body:has(img[src*="logo_dark"]) .calendar__days-names {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    margin: 7px 0;
+    padding: 0 7px;
+}
+body:has(img[src*="logo_dark"]) .calendar__day-name {
+    color: #94A6BE !important;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.2px;
+}
+body:has(img[src*="logo_dark"]) .calendar__cells {
+    width: 182px;
+    height: 126px;
+    display: flex;
+    flex-wrap: wrap;
+}
+body:has(img[src*="logo_dark"]) .calendar__cell {
+    width: 22px;
+    height: 22px;
+    margin: 2px;
+    border-radius: 50%;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    color: #94A6BE !important;
+    font-size: 10px;
+    line-height: 1;
+    letter-spacing: -0.2px;
+    cursor: pointer;
+}
+
+body:has(img[src*="logo_dark"]) .calendar__cell._active-day {
+  
+    color: #151419 !important;            
+}
+
+body:has(img[src*="logo_dark"]) .calendar__nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+    padding: 0 7px;
+}
+body:has(img[src*="logo_dark"]) .calendar__period {
+    padding: 0 7px;
+}
+body:has(img[src*="logo_dark"]) .nav__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+body:has(img[src*="logo_dark"]) .nav__action {
+    width: 18px;
+    height: 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+body:has(img[src*="logo_dark"]) .nav__action svg {
+    fill: #94A6BE !important;
+}
+body:has(img[src*="logo_dark"]) ._other-month {
+    opacity: 0 !important;
+}
+body:has(img[src*="logo_dark"]) ._cell-day:hover {
+    background-color: #151419 !important;
+}
+body:has(img[src*="logo_dark"]) ._active-day {
+    background-color: #94A6BE !important;
+    color: #151419 !important;
+}
+body:has(img[src*="logo_dark"]) ._current {
+    font-weight: 700 !important;
+}
+
+body:has(img[src*="logo_dark"]) .categories {
+    margin-bottom: 20px;
+}
+body:has(img[src*="logo_dark"]) .categories__themes {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+body:has(img[src*="logo_dark"]) .categories__p {
+    margin-bottom: 14px;
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) .categories__theme {
+    display: inline-block;
+    width: auto;
+    height: 30px;
+    padding: 8px 20px;
+    border-radius: 24px;
+    margin-right: 7px;
+    opacity: 0.4;
+}
+body:has(img[src*="logo_dark"]) .categories__theme p {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 14px;
+    white-space: nowrap;
+}
+
+body:has(img[src*="logo_dark"]) .pop-browse {
+    display: none;
+    width: 100%;
+    height: 100%;
+    min-width: 375px;
+    min-height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 7;
+}
+body:has(img[src*="logo_dark"]) .pop-browse__container {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.8) !important;
+}
+body:has(img[src*="logo_dark"]) .pop-browse__block {
+    display: block;
+    margin: 0 auto;
+    background-color: #20202C !important;
+    max-width: 630px;
+    width: 100%;
+    padding: 40px 30px 38px;
+    border-radius: 10px;
+    border: 0.7px solid #4E5566 !important;
+    position: relative;
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) .pop-browse__content {
+    display: block;
+    text-align: left;
+}
+body:has(img[src*="logo_dark"]) .pop-browse__content .categories__theme {
+    opacity: 1 !important;
+}
+body:has(img[src*="logo_dark"]) .pop-browse__content .theme-down {
+    display: none;
+    margin-bottom: 20px;
+}
+body:has(img[src*="logo_dark"]) .pop-browse__content .theme-top {
+    display: block;
+}
+body:has(img[src*="logo_dark"]) .pop-browse__top-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+body:has(img[src*="logo_dark"]) .pop-browse__ttl {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) .pop-browse__wrap {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+body:has(img[src*="logo_dark"]) .pop-browse__form {
+    max-width: 370px;
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+}
+body:has(img[src*="logo_dark"]) .pop-browse__calendar {
+    width: 182px;
+    margin-bottom: 20px;
+}
+body:has(img[src*="logo_dark"]) .pop-browse__btn-browse, 
+body:has(img[src*="logo_dark"]) .pop-browse__btn-edit {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+body:has(img[src*="logo_dark"]) .pop-browse__btn-browse button, 
+body:has(img[src*="logo_dark"]) .pop-browse__btn-edit button {
+    height: 30px;
+    margin-bottom: 10px;
+    padding: 0 14px;
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) .pop-browse__btn-browse .btn-group button, 
+body:has(img[src*="logo_dark"]) .pop-browse__btn-edit .btn-group button {
+    margin-right: 8px;
+}
+
+body:has(img[src*="logo_dark"]) .form-browse__block {
+    display: flex;
+    flex-direction: column;
+}
+body:has(img[src*="logo_dark"]) .form-browse__area {
+    max-width: 370px;
+    width: 100%;
+    outline: none;
+    padding: 14px;
+    background: #151419 !important;
+    border: 0.7px solid #4E5566 !important;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: -0.14px;
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) .form-browse__area::-moz-placeholder {
+    color: #94A6BE !important;
+}
+body:has(img[src*="logo_dark"]) .form-browse__area::placeholder {
+    color: #94A6BE !important;
+}
+body:has(img[src*="logo_dark"]) .form-browse__area {
+    margin-top: 14px;
+    height: 188px;
+}
+
+body:has(img[src*="logo_dark"]) .status {
+    margin-bottom: 11px;
+}
+body:has(img[src*="logo_dark"]) .status__p {
+    margin-bottom: 14px;
+    color: #94A6BE !important;
+}
+body:has(img[src*="logo_dark"]) .status__themes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+body:has(img[src*="logo_dark"]) .status__theme {
+    border-radius: 24px;
+    border: 0.7px solid #4E5566 !important;
+    color: #94A6BE !important;
+    padding: 11px 14px 10px;
+    margin-right: 7px;
+    margin-bottom: 7px;
+    background-color: transparent !important;
+}
+body:has(img[src*="logo_dark"]) .status__theme p {
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: -0.14px;
+}
+
+body:has(img[src*="logo_dark"]) ._btn-bor {
+    border-radius: 4px;
+    border: 0.7px solid #4E5566 !important;
+    outline: none;
+    background: transparent !important;
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) ._btn-bor a {
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) ._btn-bg {
+    border-radius: 4px;
+    background: #565EEF !important;
+    border: none;
+    outline: none;
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) ._btn-bg a {
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) ._hide {
+    display: none !important;
+}
+body:has(img[src*="logo_dark"]) ._dark {
+    display: block !important;
+}
+body:has(img[src*="logo_dark"]) ._light {
+    display: none !important;
+}
+
+body:has(img[src*="logo_dark"]) .header {
+    width: 100%;
+    margin: 0 auto;
+    background-color: #20202C !important;
+}
+body:has(img[src*="logo_dark"]) .header__block {
+    height: 70px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    top: 0;
+    left: 0;
+    padding: 0 10px;
+}
+body:has(img[src*="logo_dark"]) .header__logo img {
+    width: 85px;
+}
+body:has(img[src*="logo_dark"]) .header__nav {
+    max-width: 290px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+body:has(img[src*="logo_dark"]) .header__btn-main-new {
+    width: 178px;
+    height: 30px;
+    border-radius: 4px;
+    background-color: #565EEF !important;
+    color: #FFFFFF !important;
+    border: none;
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 500;
+    margin-right: 20px;
+}
+body:has(img[src*="logo_dark"]) .header__btn-main-new a {
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) .header__user {
+    height: 20px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF !important;
+}
+body:has(img[src*="logo_dark"]) .header__user::after {
+    content: "";
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 1px;
+    border-left: 1.9px solid #FFFFFF !important;
+    border-bottom: 1.9px solid #FFFFFF !important;
+    transform: rotate(-45deg);
+    margin: -6px 0 0 5px;
+    padding: 0;
+}
+body:has(img[src*="logo_dark"]) .header__pop-user-set {
+    display: none;
+    position: absolute;
+    top: 61px;
+    right: 0;
+    width: 213px;
+    height: 205px;
+    border-radius: 10px;
+    border: 0.7px solid #4E5566 !important;
+    background: #202229 !important;
+    box-shadow: 0px 10px 39px 0px rgba(0, 0, 0, 0.5) !important;
+    padding: 34px;
+    text-align: center;
+    z-index: 2;
+}
+
+body:has(img[src*="logo_dark"]) .main {
+    width: 100%;
+    background-color: #151419 !important;
+}
+body:has(img[src*="logo_dark"]) .main__block {
+    width: 100%;
+    margin: 0 auto;
+    padding: 25px 0 49px;
+}
+body:has(img[src*="logo_dark"]) .main__content {
+    width: 100%;
+    display: flex;
+}
+body:has(img[src*="logo_dark"]) .main__column {
+    width: 20%;
+    margin: 0 auto;
+    display: block;
+}
+
+body:has(img[src*="logo_dark"]) .column__title {
+    padding: 0 10px;
+    margin: 15px 0;
+}
+body:has(img[src*="logo_dark"]) .column__title p {
+    color: #94A6BE !important;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+body:has(img[src*="logo_dark"]) .cards {
+    width: 100%;
+    display: block;
+}
+body:has(img[src*="logo_dark"]) .cards__item {
+    padding: 5px;
+    animation-name: card-animation;
+    animation-duration: 500ms;
+    animation-timing-function: linear;
+}
+body:has(img[src*="logo_dark"]) .cards__card {
+    width: 220px;
+    height: 130px;
+    background-color: #20202C !important;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: stretch;
+    padding: 15px 13px 19px;
+}
+body:has(img[src*="logo_dark"]) .card__group {
+    width: 100%;
+    height: 20px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+body:has(img[src*="logo_dark"]) .card__theme {
+    width: auto;
+    height: 20px;
+    padding: 5px 14px;
+    border-radius: 18px;
+}
+body:has(img[src*="logo_dark"]) .card__theme p {
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 10px;
+}
+body:has(img[src*="logo_dark"]) .card__btn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 2px;
+}
+body:has(img[src*="logo_dark"]) .card__btn div {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: #94A6BE !important;
+}
+body:has(img[src*="logo_dark"]) .card__title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    color: #FFFFFF !important;
+    margin-bottom: 10px;
+}
+body:has(img[src*="logo_dark"]) .card__content {
+    height: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+body:has(img[src*="logo_dark"]) .card__date {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+body:has(img[src*="logo_dark"]) .card__date img {
+    width: 13px;
+}
+body:has(img[src*="logo_dark"]) .card__date p {
+    margin-left: 6px;
+    font-size: 10px;
+    line-height: 13px;
+    color: #94A6BE !important;
+    letter-spacing: 0.2px;
+}
+
+body:has(img[src*="logo_dark"]) .status__theme._active-status {
+    background-color: #94A6BE !important; 
+    border-color: #94A6BE !important;
+}
+
+body:has(img[src*="logo_dark"]) .status__theme._active-status p {
+    color: #20202C !important;            
+    font-weight: 500;
+}
+
+body:not(:has(img[src*="logo_dark"])) .status__theme._active-status {
+    background-color: #94A6BE !important;
+    border-color: #94A6BE !important;
+}
+
+body:not(:has(img[src*="logo_dark"])) .status__theme._active-status p {
+    color: #FFFFFF !important;            
+}
+
+body:has(img[src*="logo_dark"]) .pop-browse__btn-edit ._btn-bor {
+    border: 0.7px solid #4E5566 !important;
+    background-color: transparent !important;
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) .pop-browse__btn-edit ._btn-bor a {
+    color: #FFFFFF !important;
+}
+
+body:has(img[src*="logo_dark"]) .pop-browse__btn-edit ._btn-bg {
+    background-color: #565EEF !important;
+    border: none !important;
+    color: #FFFFFF !important;
+}
+
+@media screen and (max-width: 1200px) {
+    body:has(img[src*="logo_dark"]) .main__block {
+        width: 100%;
+        margin: 0 auto;
+        padding: 40px 0 64px;
+    }
+    body:has(img[src*="logo_dark"]) .main__content {
+        display: block !important;
+    }
+    body:has(img[src*="logo_dark"]) .main__column {
+        width: 100% !important;
+        margin: 0 auto;
+        display: block;
+    }
+    body:has(img[src*="logo_dark"]) .cards {
+        width: 100%;
+        display: flex !important;
+        overflow-y: auto;
+    }
+}
+
+@media screen and (max-width: 660px) {
+    body:has(img[src*="logo_dark"]) .pop-new-card {
+        top: 70px;
+    }
+    body:has(img[src*="logo_dark"]) .pop-new-card__container {
+        padding: 0;
+        justify-content: flex-start !important;
+    }
+    body:has(img[src*="logo_dark"]) .pop-new-card__block {
+        border-radius: 0 !important;
+    }
+    body:has(img[src*="logo_dark"]) .pop-new-card__wrap {
+        display: block !important;
+    }
+    body:has(img[src*="logo_dark"]) .calendar {
+        max-width: 340px;
+        width: 100%;
+    }
+    body:has(img[src*="logo_dark"]) .calendar__ttl,
+    body:has(img[src*="logo_dark"]) .calendar__nav,
+    body:has(img[src*="logo_dark"]) .calendar__period {
+        padding: 0;
+    }
+    body:has(img[src*="logo_dark"]) .calendar .date-create {
+        display: none !important;
+    }
+    body:has(img[src*="logo_dark"]) .calendar__p {
+        font-size: 14px;
+    }
+    body:has(img[src*="logo_dark"]) .calendar__day-name {
+        font-size: 14px;
+    }
+    body:has(img[src*="logo_dark"]) .calendar__cells {
+        width: 344px;
+        height: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    body:has(img[src*="logo_dark"]) .calendar__cell {
+        width: 42px;
+        height: 42px;
+        font-size: 14px;
+    }
+    body:has(img[src*="logo_dark"]) .pop-browse {
+        top: 70px;
+    }
+    body:has(img[src*="logo_dark"]) .pop-browse__container {
+        padding: 0;
+        justify-content: flex-start !important;
+    }
+    body:has(img[src*="logo_dark"]) .pop-browse__block {
+        border-radius: 0 !important;
+    }
+    body:has(img[src*="logo_dark"]) .pop-browse__wrap {
+        display: block !important;
+    }
+    body:has(img[src*="logo_dark"]) .pop-browse__calendar {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 495px) {
+    body:has(img[src*="logo_dark"]) .container {
+        width: 100%;
+        padding: 0 16px;
+    }
+    body:has(img[src*="logo_dark"]) .header__btn-main-new {
+        z-index: 3;
+        position: fixed;
+        left: 16px;
+        bottom: 30px;
+        top: auto;
+        width: calc(100vw - 32px);
+        height: 40px;
+        border-radius: 4px;
+        margin-right: 0;
+    }
+    body:has(img[src*="logo_dark"]) .pop-new-card__container {
+        padding: 0;
+        justify-content: flex-start !important;
+    }
+    body:has(img[src*="logo_dark"]) .pop-new-card__block {
+        padding: 20px 16px 32px;
+    }
+    body:has(img[src*="logo_dark"]) .pop-new-card__form {
+        max-width: 100%;
+        width: 100%;
+        display: block;
+    }
+    body:has(img[src*="logo_dark"]) .pop-new-card__calendar {
+        width: 100%;
+    }
+    body:has(img[src*="logo_dark"]) .form-new__area {
+        max-width: 100%;
+        height: 34px;
+    }
+    body:has(img[src*="logo_dark"]) .form-new__create {
+        width: 100%;
+        height: 40px;
+    }
+    body:has(img[src*="logo_dark"]) .pop-browse__block {
+        padding: 20px 16px 32px;
+    }
+    body:has(img[src*="logo_dark"]) .pop-browse__content .theme-down {
+        display: block !important;
+        margin-bottom: 20px;
+    }
+    body:has(img[src*="logo_dark"]) .pop-browse__content .theme-top {
+        display: none !important;
+    }
+    body:has(img[src*="logo_dark"]) .pop-browse__form {
+        max-width: 100%;
+    }
+    body:has(img[src*="logo_dark"]) .pop-browse__calendar {
+        width: 100%;
+    }
+    body:has(img[src*="logo_dark"]) .pop-browse__btn-browse button, 
+    body:has(img[src*="logo_dark"]) .pop-browse__btn-edit button {
+        width: 100%;
+        height: 40px;
+    }
+    body:has(img[src*="logo_dark"]) .pop-browse__btn-browse .btn-group, 
+    body:has(img[src*="logo_dark"]) .pop-browse__btn-edit .btn-group {
+        width: 100%;
+    }
+    body:has(img[src*="logo_dark"]) .pop-browse__btn-browse .btn-group button, 
+    body:has(img[src*="logo_dark"]) .pop-browse__btn-edit .btn-group button {
+        margin-right: 0px;
+    }
+    body:has(img[src*="logo_dark"]) .form-browse__area {
+        max-width: 100%;
+        height: 37px;
+    }
+}
+
+body:has(img[src*="logo_dark"]) .container-signin,
+body:has(img[src*="logo_dark"]) .container-signup {
+    background-color: #151419 !important; 
+}
+
+body:has(img[src*="logo_dark"]) .pop-browse__calendar,
+body:has(img[src*="logo_dark"]) .calendar {
+    transform: translateY(-5px) !important;
+    
+}
+
+body:has(img[src*="logo_dark"]) .status__theme {
+    padding: 5px 16px 5px !important;    
+    margin-right: 2px !important;         
+    margin-bottom: 7px !important;        
+    border-radius: 24px !important;       
+    display: inline-block !important;     
+    box-sizing: border-box !important;
+}
+
+body:has(img[src*="logo_dark"]) .status__theme p {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: normal !important;
+    letter-spacing: -0.14px !important;
+    margin: 0 !important;
+}
+
+body:has(img[src*="logo_dark"]) .form-edit__subttl,
+body:has(img[src*="logo_dark"]) .status__p,
+body:has(img[src*="logo_dark"]) .subttl {
+    color: #FFFFFF !important; 
+}
+
+.header,
+[class*="HeaderContainer"] {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.main,
+.main__block {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.pop-exit,
+.pop-new-card,
+.pop-browse {
+    background: transparent !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 99999 !important;
+}
+
+.pop-exit__container,
+.pop-new-card__container,
+.pop-browse__container {
+    background: rgba(0, 0, 0, 0.5) !important; 
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+}
+
+body:has(img[src*="logo_dark"]) .pop-exit__container,
+body:has(img[src*="logo_dark"]) .pop-new-card__container,
+body:has(img[src*="logo_dark"]) .pop-browse__container {
+    background: rgba(0, 0, 0, 0.75) !important;
 }

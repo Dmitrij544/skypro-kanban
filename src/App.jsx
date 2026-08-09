@@ -1,162 +1,37 @@
-import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
-import AppRoutes from "./AppRoutes";
-import "./App.css";
-
-const KANBAN_API_URL = "https://wedev-api.sky.pro/api/kanban";
-
-async function fetchTasks({ token }) {
-   return axios.get(KANBAN_API_URL, {
-      headers: { Authorization: `Bearer ${token}` }
-   })
-   .then(response => response.data.tasks)
-   .catch(error => Promise.reject(error?.response?.data?.error || error?.message || 'Ошибка загрузки'));
-}
-
-async function postTask({ token, taskData }) {
-   return axios.post(KANBAN_API_URL, taskData, {
-      headers: { 
-         Authorization: `Bearer ${token}`,
-         "Content-Type": null 
-      }
-   })
-   .then(response => response.data.tasks)
-   .catch(error => {
-      const serverError = error?.response?.data?.error || error?.message || 'Ошибка создания';
-      return Promise.reject(String(serverError));
-   });
-}
-
-async function editTask({ token, id, taskData }) {
-   return axios.put(`${KANBAN_API_URL}/${id}`, taskData, {
-      headers: { 
-         Authorization: `Bearer ${token}`,
-         "Content-Type": null 
-      }
-   })
-   .then(response => response.data.tasks)
-   .catch(error => Promise.reject(error?.response?.data?.error || error?.message || 'Ошибка обновления'));
-}
-
-async function deleteTask({ token, id }) {
-   return axios.delete(`${KANBAN_API_URL}/${id}`, {
-      headers: { Authorization: `Bearer ${token}` }
-   })
-   .then(response => response.data.tasks)
-   .catch(error => Promise.reject(error?.response?.data?.error || error?.message || 'Ошибка удаления'));
-}
+import { useContext, useEffect, useState } from "react";
+import AuthContext from "./AuthContext"; 
+import ThemeContext from "./ThemeContext"; 
+import TasksContext from "./TasksContext"; 
+import AppRoutes from "./AppRoutes"; 
+import "./App.css"; 
 
 function App() {
-  const [cards, setCards] = useState([]);
+  const { theme } = useContext(ThemeContext) || { theme: 'light' };
+  const { user } = useContext(AuthContext) || {};
+  const isAuth = !!user;
+
+  const { fetchTasks } = useContext(TasksContext) || {};
+
   const [isLoading, setIsLoading] = useState(true);
-  const [isAuth, setIsAuth] = useState(false);
 
-  const getUserToken = useCallback(() => {
-    const userInfo = localStorage.getItem("userInfo");
-    if (userInfo) {
-      try {
-        const parsed = JSON.parse(userInfo);
-        return parsed.token || null;
-      } catch {
-        return null;
+  useEffect(() => {
+    const getTasksData = async () => {
+      if (isAuth && typeof fetchTasks === 'function') {
+        setIsLoading(true); 
+        try {
+          await fetchTasks(); 
+        } catch (err) {
+          console.error("Ошибка при инициализации приложения:", err);
+        }
+        setIsLoading(false); 
+      } else {
+        setIsLoading(false); 
       }
-    }
-    return null;
-  }, []);
+    };
 
-  useEffect(() => {
-    const token = getUserToken();
-    
-    if (!isAuth || !token) {
-      const timer = setTimeout(() => {
-        setCards([]);
-        setIsLoading(false);
-      }, 0);
-      return () => clearTimeout(timer);
-    }
-
-    const timer = setTimeout(() => {
-      setIsLoading(true);
-      
-      fetchTasks({ token })
-        .then((serverTasks) => {
-          setCards(serverTasks || []);
-        })
-        .catch((err) => {
-          console.error("Ошибка загрузки задач:", err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }, 0);
-
-    return () => clearTimeout(timer);
-  }, [isAuth, getUserToken]); 
-  useEffect(() => {
-    const token = getUserToken();
-    if (!isAuth || !token) {
-      const timer = setTimeout(() => {
-        setCards([]);
-        setIsLoading(false);
-      }, 0);
-      return () => clearTimeout(timer);
-    }
-
-    const timer = setTimeout(() => {
-      setIsLoading(true);
-      
-      fetchTasks({ token })
-        .then((serverTasks) => {
-          setCards(serverTasks || []);
-        })
-        .catch((err) => {
-          console.error("Ошибка загрузки задач:", err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }, 0);
-
-    return () => clearTimeout(timer);
-  }, [isAuth, getUserToken]);
-
-  const handleAddTask = async (newCard) => {
-    const token = getUserToken();
-    if (!token) return;
-    try {
-      const updatedTasks = await postTask({ token, taskData: newCard });
-      setCards(updatedTasks);
-    } catch (err) {
-      alert(`Ошибка добавления: ${err}`);
-    }
-  };
-
-  const handleSaveTask = async (updatedTask) => {
-    const token = getUserToken();
-    if (!token) return;
-    try {
-      const updatedTasks = await editTask({ 
-        token, 
-        id: updatedTask._id || updatedTask.id, 
-        taskData: updatedTask 
-      });
-      setCards(updatedTasks);
-    } catch (err) {
-      alert(`Ошибка сохранения: ${err}`);
-    }
-  };
-
-  const handleDeleteTask = async (taskId) => {
-    const token = getUserToken();
-    if (!token) return;
-    try {
-      const updatedTasks = await deleteTask({ token, id: taskId });
-      setCards(updatedTasks);
-    } catch (err) {
-      alert(`Ошибка удаления: ${err}`);
-    }
-  };
-
+    getTasksData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuth]);
   if (isLoading) {
     return (
       <div className="loader-container">
@@ -166,15 +41,8 @@ function App() {
   }
 
   return (
-    <div className="wrapper">
-      <AppRoutes 
-        cards={cards} 
-        isAuth={isAuth} 
-        setAuth={setIsAuth} 
-        onAddTask={handleAddTask}
-        onSaveTask={handleSaveTask}
-        onDeleteTask={handleDeleteTask}
-      />
+    <div className={`wrapper ${(theme === 'dark' && isAuth) ? '_dark' : 'light'}`}>
+      <AppRoutes isAuth={isAuth} />
     </div>
   );
 }

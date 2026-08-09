@@ -13,6 +13,12 @@ export const CalendarTtl = styled.p`
   display: block;
   margin-bottom: 14px;
   padding: 0 7px;
+  transition: color 0.2s ease;
+
+  /* НАШ ПОБЕДНЫЙ МЕТОД: Заголовок "Даты" становится белым */
+  html:has(img[src*="logo_dark"]) & {
+    color: #FFFFFF;
+  }
 `;
 
 export const CalendarBlock = styled.div`
@@ -32,6 +38,12 @@ export const CalendarMonth = styled.div`
   font-size: 14px;
   line-height: 25px;
   font-weight: 600;
+  transition: color 0.2s ease;
+
+  /* НАШ ПОБЕДНЫЙ МЕТОД: Название месяца становится белым */
+  html:has(img[src*="logo_dark"]) & {
+    color: #FFFFFF;
+  }
 `;
 
 export const NavActions = styled.div`
@@ -117,6 +129,18 @@ export const CalendarCell = styled.div`
     font-weight: 600;
     opacity: 1;
   `}
+
+  /* НАШ ПОБЕДНЫЙ МЕТОД: Исправляем ховер и выбранный день в тёмной теме */
+  html:has(img[src*="logo_dark"]) & {
+    &:hover {
+      background-color: #151419;
+    }
+
+    ${props => props.$isSelected && `
+      background-color: #94A6BE !important;
+      color: #151419 !important; /* Текст внутри серой ячейки становится тёмным */
+    `}
+  }
 `;
 
 export const CalendarPeriod = styled.div`
@@ -132,5 +156,13 @@ export const CalendarP = styled.p`
   span {
     color: #000000;
     font-weight: 600;
+    transition: color 0.2s ease;
+  }
+
+  /* НАШ ПОБЕДНЫЙ МЕТОД: Дата срока исполнения ("Срок исполнения: 00.00.0000") становится белой */
+  html:has(img[src*="logo_dark"]) & {
+    span {
+      color: #FFFFFF;
+    }
   }
 `;

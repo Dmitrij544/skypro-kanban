@@ -1,24 +1,12 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import { useState, useContext } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import authService from "../../../servieces/auth";
+import ThemeContext from "../../ThemeContext";
+import AuthContext from "../../AuthContext"; 
 
-const USER_API_URL = "https://wedev-api.sky.pro/api/user";
-
-async function signUp({ name, login, password }) {
-   return axios.post(USER_API_URL, { name, login, password }, {
-      headers: {
-         "Content-Type": null
-      }
-   })
-   .then(response => response.data.user)
-   .catch(error => {
-      const serverError = error?.response?.data?.error || error?.message || 'Ошибка регистрации';
-      return Promise.reject(String(serverError));
-   });
-}
-
-function RegisterPage({ setAuth }) {
+function RegisterPage() {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext) || {}; 
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -27,11 +15,19 @@ function RegisterPage({ setAuth }) {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const context = useContext(ThemeContext);
+  const theme = context?.theme || 'light';
+  const isDark = theme === 'dark';
+
   const handleRegister = async (e) => {
     e.preventDefault();
     setError(''); 
 
-    if (!name.trim() || !email.trim() || !password.trim()) {
+    const trimmedName = name.trim();
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    if (!trimmedName || !trimmedEmail || !trimmedPassword) {
       setError('Пожалуйста, заполните все поля ввода.');
       return;
     }
@@ -39,17 +35,21 @@ function RegisterPage({ setAuth }) {
     try {
       setIsSubmitting(true);
 
-      const userResponseData = await signUp({
-        name: name,
-        login: email,
-        password: password
+      if (!authService || typeof authService.signUp !== 'function') {
+        throw new Error('Сервис авторизации недоступен');
+      }
+
+      const userResponseData = await authService.signUp({
+        name: trimmedName,
+        login: trimmedEmail,
+        password: trimmedPassword
       });
 
       if (userResponseData) {
         localStorage.setItem("userInfo", JSON.stringify(userResponseData));
         
-        if (typeof setAuth === 'function') {
-          setAuth(true);
+        if (typeof login === 'function') {
+          login(userResponseData);
         }
 
         navigate('/');
@@ -128,6 +128,14 @@ function RegisterPage({ setAuth }) {
 
         </div>
       </div>
+
+      {isDark && (
+        <img 
+          src="images/logo_dark.png" 
+          alt="theme-trigger" 
+          style={{ display: 'none' }} 
+        />
+      )}
     </div>
   );
 }

@@ -1,13 +1,23 @@
-import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useContext } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom'; 
+import ThemeContext from '../../ThemeContext';
+import TasksContext from '../../TasksContext'; 
 
-export default function PopBrowse({ cards, onDeleteTask }) {
+export default function PopBrowse() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation(); 
 
-  const task = cards?.find((t) => String(t._id || t.id) === String(id)) || {};
+  const isEditMode = location.pathname.endsWith('/edit');
+
+  const { tasks, deleteTask } = useContext(TasksContext) || { tasks: [] };
+  const task = tasks?.find((t) => String(t._id || t.id) === String(id)) || {};
 
   const [currentStatus] = useState(task?.status || 'Без статуса');
+
+  const context = useContext(ThemeContext);
+  const theme = context?.theme || 'light';
+  const isDark = theme === 'dark';
 
   const handleClose = (e) => {
     if (e) e.preventDefault();
@@ -16,13 +26,14 @@ export default function PopBrowse({ cards, onDeleteTask }) {
 
   const handleGoToEdit = (e) => {
     if (e) e.preventDefault();
-    navigate(`/task/${task._id || id}/edit`);
+    navigate(`/task/${task._id || id}/edit`); 
   };
 
-  const handleDeleteTask = (e) => {
+  const handleConfirmDelete = async (e) => {
     if (e) e.preventDefault();
-    if (typeof onDeleteTask === 'function') {
-      onDeleteTask(task._id || id); 
+    const taskId = task._id || id;
+    if (typeof deleteTask === 'function') {
+      await deleteTask(taskId); 
     }
     navigate('/'); 
   };
@@ -73,7 +84,9 @@ export default function PopBrowse({ cards, onDeleteTask }) {
     currentTopic === 'Web Design' || currentTopic === 'Web Dev' ? '_orange' : 
     currentTopic === 'Research' ? '_green' : '_purple';
 
-  const displayDate = task.date ? new Date(task.date).toLocaleDateString('ru-RU') : 'Срок не указан';
+  const rawDateStr = task.date ? new Date(task.date).toLocaleDateString('ru-RU') : 'Срок не указан';
+  
+  const displayDate = rawDateStr.replace('.2026', '.26').replace('.2023', '.23');
 
   return (
     <div className="pop-browse" id="popBrowse" style={{ display: 'block' }}>
@@ -82,7 +95,7 @@ export default function PopBrowse({ cards, onDeleteTask }) {
           <div className="pop-browse__content">
             
             <div className="pop-browse__top-block">
-              <h3 className="pop-browse__ttl">{task.title || 'Загрузка...'}</h3>
+              <h3 className="pop-browse__ttl">{task.title || 'Название задачи'}</h3>
               <div className={`categories__theme theme-top ${categoryColorClass} _active-category`}>
                 <p className={categoryColorClass}>{currentTopic}</p>
               </div>
@@ -144,7 +157,7 @@ export default function PopBrowse({ cards, onDeleteTask }) {
                         return (
                           <div
                             key={item.id}
-                            className={`calendar__cell ${item.type} ${isTaskDate ? '_active' : ''}`}
+                            className={`calendar__cell ${item.type} ${isTaskDate ? '_active-day' : ''}`}
                           >
                             {item.day}
                           </div>
@@ -164,57 +177,45 @@ export default function PopBrowse({ cards, onDeleteTask }) {
               </p>
             </div>
             
-            <div className="theme-down__categories theme-down" style={{ marginBottom: '20px' }}>
-              <p className="categories__p subttl">Категория</p>
-              <div className={`categories__theme ${categoryColorClass} _active-category`}>
-                <p className={categoryColorClass}>{currentTopic}</p>
-              </div>
-            </div>
-
             <div className="pop-browse__btn-browse">
-              <div className="btn-group">
-                <button type="button" onClick={handleGoToEdit} className="btn-browse__edit _btn-bor _hover03">
-                  Редактировать задачу
+              {isEditMode ? (
+                <div className="btn-group">
+                  <button className="pop-browse__btn-save _btn-bg _hover01" onClick={handleClose}>
+                    Сохранить
+                  </button>
+                  <button className="pop-browse__btn-cancel _btn-bor _hover03" onClick={handleClose}>
+                    Отмена
+                  </button>
+                </div>
+              ) : (
+                <div className="btn-group">
+                  <button className="pop-browse__btn-edit _btn-bor _hover03" onClick={handleGoToEdit}>
+                    Редактировать задачу
+                  </button>
+                  <button className="pop-browse__btn-delete _btn-bor _hover03" onClick={handleConfirmDelete}>
+                    Удалить задачу
+                  </button>
+                </div>
+              )}
+              
+              {!isEditMode && (
+                <button className="pop-browse__btn-close _btn-bg _hover01" onClick={handleClose}>
+                  Закрыть
                 </button>
-                <button 
-                  type="button" 
-                  onClick={handleDeleteTask} 
-                  className="btn-browse__delete _btn-bor _hover03"
-                >
-                  Удалить задачу
-                </button>
-              </div>
-              <button 
-                type="button" 
-                onClick={handleClose} 
-                className="btn-browse__close _btn-bg _hover01"
-              >
-                Закрыть
-              </button>
-            </div>
-
-            <div className="pop-browse__btn-edit _hide">
-              <div className="btn-group">
-                <button type="button" className="btn-edit__edit _btn-bg _hover01">
-                  Сохранить
-                </button>
-                <button 
-                  type="button" 
-                  onClick={handleDeleteTask} 
-                  className="btn-edit__delete _btn-bor _hover03" 
-                  id="btnDelete"
-                >
-                  Удалить задачу
-                </button>
-              </div>
-              <button type="button" onClick={handleClose} className="btn-edit__close _btn-bg _hover01">
-                Закрыть
-              </button>
+              )}
             </div>
 
           </div>
         </div>
       </div>
+
+      {isDark && (
+        <img 
+          src="images/logo_dark.png" 
+          alt="theme-trigger" 
+          style={{ display: 'none' }} 
+        />
+      )}
     </div>
   );
 }

@@ -1,17 +1,25 @@
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ThemeContext from '../../ThemeContext';
+import AuthContext from '../../AuthContext'; 
 import * as S from './PopUser.styled';
 
-function PopUser({ setAuth }) { 
+function PopUser() { 
   const navigate = useNavigate();
+
+  const themeContext = useContext(ThemeContext);
+  const theme = themeContext?.theme || 'light';
+  const isDark = theme === 'dark';
+
+  const auth = useContext(AuthContext);
+  const logout = auth?.logout || (() => {});
 
   const handleLogout = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    localStorage.removeItem("userInfo");
-
-    if (typeof setAuth === 'function') {
-      setAuth(false); 
+    if (typeof logout === 'function') {
+      logout();
     }
     
     navigate('/login');
@@ -45,6 +53,14 @@ function PopUser({ setAuth }) {
           </S.PopExitForm>
         </S.PopExitBlock>
       </S.PopExitContainer>
+
+      {isDark && (
+        <img 
+          src="images/logo_dark.png" 
+          alt="theme-trigger" 
+          style={{ display: 'none' }} 
+        />
+      )}
     </S.PopExit>
   );
 }

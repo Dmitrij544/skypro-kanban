@@ -1,8 +1,8 @@
 import PopUser from '../../components/PopUser/PopUser';
 
-function ExitPage({ setAuth }) { 
+function ExitPage() { 
   return (
-    <PopUser setAuth={setAuth} /> 
+    <PopUser /> 
   );
 }
 

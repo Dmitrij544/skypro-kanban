@@ -4,6 +4,14 @@ export const MainContainer = styled.main`
   width: 100%;
   background-color: #EAEEF6; 
   padding: 40px 0; 
+  transition: background-color 0.3s ease; /* Добавили плавность */
+
+  /* НАШ ПОБЕДНЫЙ ХАК: Если браузер находит на странице тёмный логотип,
+     контейнер доски САМ мгновенно перекрашивается в глубокий тёмный цвет!
+     Когда галочку снимают — он чисто возвращается к исходному #EAEEF6. */
+  html:has(img[src*="logo_dark"]) & {
+    background-color: #151419;
+  }
 `;
 
 export const Container = styled.div`
