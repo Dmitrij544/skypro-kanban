@@ -114,6 +114,11 @@ export default function PopEdit() {
   
   const handleDelete = async (e) => {
     e.preventDefault();
+    
+    const isConfirmed = window.confirm("Вы действительно хотите безвозвратно удалить эту задачу?");
+    
+    if (!isConfirmed) return;
+
     if (typeof deleteTask === 'function') {
       await deleteTask(task._id || id);
     }

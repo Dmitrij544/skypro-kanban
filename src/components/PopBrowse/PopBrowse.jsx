@@ -31,6 +31,11 @@ export default function PopBrowse() {
 
   const handleConfirmDelete = async (e) => {
     if (e) e.preventDefault();
+    
+    const isConfirmed = window.confirm("Вы действительно хотите безвозвратно удалить эту задачу?");
+    
+    if (!isConfirmed) return;
+
     const taskId = task._id || id;
     if (typeof deleteTask === 'function') {
       await deleteTask(taskId); 
