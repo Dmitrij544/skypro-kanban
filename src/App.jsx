@@ -32,17 +32,17 @@ function App() {
     getTasksData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth]);
-  if (isLoading) {
-    return (
-      <div className="loader-container">
-        <p className="loader-text">Данные загружаются...</p>
-      </div>
-    );
-  }
 
   return (
     <div className={`wrapper ${(theme === 'dark' && isAuth) ? '_dark' : 'light'}`}>
       <AppRoutes isAuth={isAuth} />
+
+      {isLoading && isAuth && (
+        <div className="glass-loader">
+          <div className="neon-spinner"></div>
+          <p className="glass-loader-text">Синхронизация доски...</p>
+        </div>
+      )}
     </div>
   );
 }

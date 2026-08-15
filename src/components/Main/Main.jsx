@@ -18,19 +18,25 @@ function Main({ cards = [] }) {
         <S.MainBlock>
           <S.MainContent>
           
-            {COLUMN_STATUSES.map((status, index) => {
-               const filteredTasks = safeCards.filter(task => {
-                  return String(task.status).trim() === status.trim();
-               });
+            {safeCards.length === 0 ? (
+              <div style={{ width: '100%', textAlign: 'center', padding: '40px 0' }}>
+                <p style={{ fontSize: '18px', color: '#94A6BE', fontWeight: '500' }}>Новых задач нет</p>
+              </div>
+            ) : (
+              COLUMN_STATUSES.map((status, index) => {
+                 const filteredTasks = safeCards.filter(task => {
+                    return String(task.status).trim() === status.trim();
+                 });
 
-               return (
-                  <Column 
-                     key={index} 
-                     title={status} 
-                     cards={filteredTasks} 
-                  />
-               );
-            })}
+                 return (
+                    <Column 
+                       key={index} 
+                       title={status} 
+                       cards={filteredTasks} 
+                    />
+                 );
+              })
+            )}
             
           </S.MainContent>
         </S.MainBlock>

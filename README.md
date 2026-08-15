@@ -1,16 +1,62 @@
-# React + Vite
+# 📋 Kanban Board - TaskFlow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Интерактивное веб-приложение для управления задачами (Канбан-доска), разработанное в качестве курсовой работы на курсе **Skypro**. Проект реализует современный интерфейс для отслеживания рабочих процессов, распределения задач по статусам и полной синхронизации с учебным сервером API.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Ключевые возможности проекта
 
-## React Compiler
+### 🔐 Авторизация и Сетевая безопасность
+* **Полноценный Context API:** Глобальное управление состояниями пользователя (`AuthContext`) и списка задач (`TasksContext`).
+* **Асинхронные запросы (Axios):** Полная синхронизация действий (`GET`, `POST`, `PUT`, `DELETE`) с сервером бэкенда Skypro.
+* **Надёжная обработка сбоев:** Все сетевые вызовы защищены блоками `try...catch`. Приложение выдаёт понятные уведомления об ошибках и сохраняет работоспособность при падении сети или сервера.
+* **Валидация полей:** Строгий контроль ввода (`.trim()`). Запрещена отправка пустых карточек или описаний, состоящих только из пробелов.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 🎨 Кастомизация и Визуальный дизайн
+* **Динамическая Тёмная Тема:** Переключение ночного режима через `ThemeContext` с умным сохранением выбора в `localStorage` (сессия не слетает при перезагрузке `F5`).
+* **Glassmorphic Loader:** Современная футуристичная анимация загрузки данных с эффектом размытия заднего плана (`backdrop-filter`) и неоновым спиннером.
+* **Интуитивный UI/UX:** Кастомные ховер-эффекты для кнопок в окнах редактирования карточек (`PopEdit`) и подтверждения выхода из системы (`PopUser`), адаптированные под тёмное и светлое оформление.
 
-## Expanding the ESLint configuration
+### 🧭 Архитектура и Роутинг
+* **React Router v6:** Чистая навигация с использованием вложенных маршрутов (Nested Routes). Модальные окна просмотра и редактирования привязаны к URL (например, `/task/:id/edit`).
+* **Защищённые маршруты (Private Routes):** Доступ к Канбан-доске открывается строго после успешной авторизации, неавторизованные пользователи автоматически перенаправляются на `/login`.
+* **Обработка 404 страницы:** Стилизованная под общий интерфейс страница ошибки при вводе несуществующего пути, поддерживающая обе темы оформления.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Используемый технологический стек
+
+* **Библиотеки:** React (Hooks: useState, useEffect, useContext, useCallback, useMemo), React Router DOM v6, Axios
+* **Стилизация:** CSS3 (БЭМ-архитектура, CSS-переменные, селектор `:has()`), Styled Components
+* **Сборщик и Линтеры:** Vite, ESLint (0 Errors, 0 Warnings в панели Problems)
+
+---
+
+## 🚀 Как запустить проект локально
+
+### 1. Клонирование репозитория
+```bash
+git clone https://github.com
+cd sky-words
+```
+
+### 2. Установка всех зависимостей
+```bash
+npm install
+```
+
+### 3. Запуск сервера разработки (Vite)
+```bash
+npm run dev
+```
+После запуска откройте в браузере адрес: `http://localhost:5173/` (или порт, указанный в терминале).
+
+### 4. Проверка кода линтером (ESLint)
+```bash
+npm run lint
+```
+
+---
+
+## 👨‍💻 Автор проекта
+Выпускник курса веб-разработки образовательной платформы **Skypro**.

@@ -2,6 +2,7 @@ import { createContext, useState, useContext } from 'react';
 import AuthContext from './AuthContext';
 import axios from 'axios';
 import { fetchTasks, editTask, deleteTask } from '../servieces/api'; 
+
 const TasksContext = createContext(null);
 
 export function TasksProvider({ children }) {
@@ -17,7 +18,9 @@ export function TasksProvider({ children }) {
       const serverTasks = await fetchTasks({ token: user.token });
       setTasksState(serverTasks || []);
     } catch (error) {
-      console.error("Ошибка загрузки задач:", error);
+      console.error("=== ОШИБКА ЗАГРУЗКИ БЭКЕНДА ===");
+      alert(`Не удалось загрузить задачи с сервера: ${error.response?.data?.error || error.message}`);
+      setTasksState([]); 
     }
   }; 
 
@@ -49,7 +52,7 @@ export function TasksProvider({ children }) {
       
       setTasksState(response.data.tasks || []);
     } catch (err) {
-      console.error("=== ОШИБКА БЭКЕНДА ===");
+      console.error("=== ОШИБКА СОЗДАНИЯ НА БЭКЕНДЕ ===");
       alert(`Ошибка создания задачи: ${err?.response?.data?.error || err.message}`);
     }
   };
@@ -59,7 +62,6 @@ export function TasksProvider({ children }) {
 
     try {
       const jsonBody = JSON.stringify(updatedTaskData);
-
       console.log("=== ОТПРАВЛЯЕМ ОБНОВЛЕННЫЙ JSON ЗАДАЧИ ===", jsonBody);
 
       const response = await axios.put(`https://wedev-api.sky.pro/api/kanban/${id}`, jsonBody, {
@@ -90,7 +92,8 @@ export function TasksProvider({ children }) {
       });
       setTasksState(updatedTasks || []);
     } catch (err) {
-      alert(`Ошибка обновления: ${err}`);
+      console.error("=== ОШИБКА ОБНОВЛЕНИЯ СТАТУСА ===");
+      alert(`Ошибка обновления статуса задачи: ${err.response?.data?.error || err.message}`);
     }
   };
 
@@ -100,7 +103,8 @@ export function TasksProvider({ children }) {
       const updatedTasks = await deleteTask({ token: user.token, id });
       setTasksState(updatedTasks || []);
     } catch (err) {
-      alert(`Ошибка удаления: ${err}`);
+      console.error("=== ОШИБКА УДАЛЕНИЯ НА БЭКЕНДЕ ===");
+      alert(`Ошибка удаления задачи: ${err.response?.data?.error || err.message}`);
     }
   };
 

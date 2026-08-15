@@ -31,6 +31,11 @@ export default function PopBrowse() {
 
   const handleConfirmDelete = async (e) => {
     if (e) e.preventDefault();
+    
+    const isConfirmed = window.confirm("Вы действительно хотите безвозвратно удалить эту задачу?");
+    
+    if (!isConfirmed) return;
+
     const taskId = task._id || id;
     if (typeof deleteTask === 'function') {
       await deleteTask(taskId); 
@@ -86,7 +91,7 @@ export default function PopBrowse() {
 
   const rawDateStr = task.date ? new Date(task.date).toLocaleDateString('ru-RU') : 'Срок не указан';
   
-  const displayDate = rawDateStr.replace('.2026', '.26').replace('.2023', '.23');
+  const displayDate = rawDateStr.replace('.2026', '.26').replace('.2023', '.23') + '.';
 
   return (
     <div className="pop-browse" id="popBrowse" style={{ display: 'block' }}>

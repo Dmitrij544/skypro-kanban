@@ -45,7 +45,7 @@ function Calendar({ selected, setSelected }) {
   };
 
   const formattedPeriodDate = activeDay 
-    ? new Date(activeDay.fullDate).toLocaleDateString('ru-RU').replace('.2023', '.23').replace('.2026', '.26')
+    ? new Date(activeDay.fullDate).toLocaleDateString('ru-RU').replace('.2023', '.23').replace('.2026', '.26') + '.'
     : '';
 
   return (
